@@ -25,3 +25,29 @@ contains?("Pans Labyrinth")
 contains?("elaborate")
 contains?("polar bear")
 contains?("")
+
+# 2
+# What will the following program print to the screen?
+# What will it return?
+
+puts "Nothing."
+
+# 3
+# What is exception handling and what problem does it solve?
+
+puts "Exception handling is a way to prevent an error in a script from stopping the rest of the script from running, using the 'rescue' logic."
+
+# 4
+# Modify the code in exercise 2 to make the block execute properly.
+
+def execute(&block)
+  block.call
+end
+
+execute { puts "Hello from inside the execute method!" }
+
+# 5
+# Why does the following code...
+# Give us the following error when we run it?
+
+puts "Because there is no ampersand in the method definition."
