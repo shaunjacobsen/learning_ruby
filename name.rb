@@ -1,6 +1,7 @@
 # From the "Variables" chapter
 
-puts "What's your name?"
-name = gets
-puts "Hello there, #{name.chomp}!"
-10.times { puts name }
+puts "What's your first name?"
+first_name = gets.chomp
+puts "What's your last name?"
+last_name = gets.chomp
+puts "Hello there, #{first_name} #{last_name}!"
