@@ -39,6 +39,7 @@ def get_puzzle
 end
 
 def show_board
+  sleep(0.5)
   print "\n\n"
   (@current_puzzle_phrase_parsed.length - (0.5 * @score.to_s.length.to_f)).to_i.times { print " " }
   puts "$#{@score}"
@@ -58,8 +59,14 @@ def spin_wheel
   rand = Random.new
   rand = rand.rand(0..(@wheel_wedges - 1))
   @wheel_selection = @wheel[rand]
-  puts "Spinning wheel..."
+  print "Spinning wheel"
+  5.times do
+    sleep(0.3)
+    print "."
+  end
+  print "\n\n"
   wheel_selection
+  print "\n\n"
   case @wheel_selection
     when "Lose A Turn"
       puts "Lost a turn, spinning again."
@@ -81,7 +88,7 @@ def play
 end
 
 def prompt
-  puts "What would you like to do: GUESS a letter, BUY a vowel, or SOLVE the puzzle?"
+  puts "What would you like to do: GUESS a letter, BUY a vowel, or SOLVE the puzzle? (You can also SEE letters you've used or QUIT)"
   @answer = gets.chomp.upcase
   case @answer
     when "GUESS"
@@ -90,6 +97,10 @@ def prompt
       buy_vowel
     when "SOLVE"
       solve
+    when "SEE"
+      see
+    when "QUIT"
+      exit
     else
       "That option isn't available, please try again."
       prompt
@@ -119,9 +130,10 @@ def buy_vowel
     if vowel =~ /[AEIOU]/
       @wheel_selection = 0
       guess_letter(vowel)
+      @score -= 250
       spin_wheel
     else
-      puts "Please enter a vowel, not a consonant:"
+      puts "Please enter a vowel, not a consonant."
       buy_vowel
     end
   else
@@ -133,23 +145,25 @@ def guess_letter(letter)
   if check_letter(letter)
     letters = @current_puzzle_phrase_parsed.select { |l| letter == l }
     @num_rounds += 1
-    puts "\n\n\n\n\n"
+    5.times do
+      sleep(0.2)
+      puts ".\n"
+    end
     if letters.length == 1
       puts "There is one \"#{letter}\"."
-      sleep(1)
       add_letter_to_board(letter,1)
       add_to_score(@wheel_selection,letters.length)
     elsif letters.length > 1
       puts "There are #{letters.length} \"#{letter}\"s."
-      sleep(1)
       add_letter_to_board(letter,letters.length)
       add_to_score(@wheel_selection,letters.length)
     else
       puts "There are no \"#{letter}\"s."
+      spin_wheel
     end
-    sleep(1)
+    sleep(0.2)
   else
-    puts "You have already guessed that letter."
+    puts "Invalid input, please try again."
     select_letter
   end
 end
@@ -158,7 +172,7 @@ def solve
   puts "Alright, type out your guess:"
   string = gets.chomp.upcase
   if string.upcase == @current_puzzle_phrase
-    @board = @current_puzzle_phrase_parsed
+    @board = @current_puzzle_phrase.split("")
     show_board
     @total_letters = 0
   else
@@ -169,6 +183,8 @@ end
 
 def add_letter_to_board(letter,num_letters)
   num_letters.times do
+    show_board
+    sleep(0.5)
     index = @current_puzzle_phrase_parsed.find_index(letter)
     @board[index] = letter
     @current_puzzle_phrase_parsed[index] = ""
@@ -179,7 +195,11 @@ end
 
 # if the letter is in the @guessed_letters array, return FALSE to reject
 def check_letter(letter)
-  @guessed_letters.include?(letter) ? false : true
+  if letter.length == 1
+    @guessed_letters.include?(letter) ? false : true
+  else
+    false
+  end
 end
 
 def wheel_selection
@@ -190,9 +210,26 @@ def wheel_selection
   end
 end
 
+def see
+  puts "You've used the following letters:"
+  if @guessed_letters.length > 1
+    @guessed_letters.each { |a| print "#{a}, " }
+  elsif @guessed_letters.length == 1
+    @guessed_letters.each { |a| print "#{a}" }
+  else
+    print "None so far."
+  end
+  print "\n\n"
+end
+
+puts "WHEEL OF FORTUNE"
+puts "press control + C at any time to exit"
+sleep(1)
 puts "Let's play!"
+sleep(1)
 get_puzzle
 puts "The category is " + @current_puzzle_category
+sleep(1)
 show_board
 spin_wheel
 play
