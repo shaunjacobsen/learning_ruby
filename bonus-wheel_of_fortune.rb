@@ -1,3 +1,5 @@
+# A fairly buggy first attempt at a ruby game
+
 # This script seeks to emulate the Wheel of Fortune game show
 
 @puzzles = [
