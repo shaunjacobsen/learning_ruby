@@ -7,10 +7,23 @@
     ["Before & After", "Beer Nuts And Bolts"],
     ["Family", "Venus and Serena Williams"],
     ["On the Map", "Auckland New Zealand"],
-    ["Food and Drink", "Baked Lasagna"]
+    ["Food and Drink", "Baked Lasagna"],
+    ["Landmark", "Empire State Building"],
+    ["Landmark", "Grand Central Station"],
+    ["Landmark", "Niagara Falls"],
+    ["Fictional Character", "Clark Kent"],
+    ["What are you doing?", "Getting a haircut"],
+    ["What are you doing?", "Flying a kite"],
+    ["Thing", "Bag of groceries"],
+    ["Thing", "Cinnamon flavored breath mints"],
+    ["Thing", "Frequently asked questions"],
+    ["Place", "Northerly Island"],
+    ["Place", "Lincoln Park Zoo"],
+    ["Street", "Broadway"],
+    ["Person", "Experienced Traveler"]
 ]
 
-@wheel = [250, 250, 250, 350, 350, 350, 500, 500, 500, 650, 650, 750, 850, 950, 1000, 1000, "Bankrupt", "Bankrupt", "Lose A Turn"]
+@wheel = [250, 250, 250, 350, 350, 350, 500, 500, 500, 650, 650, 750, 850, 950, 1000, 1000, 2500, 5000, "Bankrupt", "Bankrupt", "Lose A Turn"]
 
 score = 0
 
@@ -37,6 +50,12 @@ def get_puzzle
   @total_letters = @current_puzzle_phrase.to_s.gsub(/\s+/, "").length
   @board = @current_puzzle_phrase_parsed.map { |l| l != " " ? "_" : " " }
 end
+
+def reset
+  @num_rounds = 0
+  @guessed_letters = []
+end
+
 
 def show_board
   sleep(0.5)
@@ -143,6 +162,7 @@ end
 
 def guess_letter(letter)
   if check_letter(letter)
+    @guessed_letters << letter
     letters = @current_puzzle_phrase_parsed.select { |l| letter == l }
     @num_rounds += 1
     5.times do
@@ -153,10 +173,12 @@ def guess_letter(letter)
       puts "There is one \"#{letter}\"."
       add_letter_to_board(letter,1)
       add_to_score(@wheel_selection,letters.length)
+      spin_wheel
     elsif letters.length > 1
       puts "There are #{letters.length} \"#{letter}\"s."
       add_letter_to_board(letter,letters.length)
       add_to_score(@wheel_selection,letters.length)
+      spin_wheel
     else
       puts "There are no \"#{letter}\"s."
       spin_wheel
@@ -189,7 +211,6 @@ def add_letter_to_board(letter,num_letters)
     @board[index] = letter
     @current_puzzle_phrase_parsed[index] = ""
   end
-  @guessed_letters << letter
   @total_letters -= num_letters
 end
 
@@ -222,14 +243,24 @@ def see
   print "\n\n"
 end
 
+def quit
+  i = 0
+end
+
 puts "WHEEL OF FORTUNE"
 puts "press control + C at any time to exit"
-sleep(1)
-puts "Let's play!"
-sleep(1)
-get_puzzle
-puts "The category is " + @current_puzzle_category
-sleep(1)
-show_board
-spin_wheel
-play
+
+i = 1
+
+while i == 1 do
+  sleep(1)
+  puts "Let's play!"
+  sleep(1)
+  get_puzzle
+  puts "The category is " + @current_puzzle_category
+  sleep(1)
+  show_board
+  spin_wheel
+  play
+  reset
+end
