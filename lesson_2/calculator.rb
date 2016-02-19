@@ -47,8 +47,17 @@ loop do
     end
   end
 
-  prompt("What operation would you like to perform? 1) add 2) subtract 3) multiply 4) divide")
+  operator_prompt = <<-MSG
+    What operation do you want to do?
+      1) Addition
+      2) Subtraction
+      3) Multiplication
+      4) Division
+  MSG
 
+  prompt(operator_prompt)
+
+  operator = ''
   loop do
     operator = Kernel.gets().chomp()
 
@@ -57,6 +66,17 @@ loop do
     else
       prompt("Must choose 1, 2, 3, or 4")
     end
+  end
+
+  result = case operator
+    when '1'
+      number1.to_i() + number2.to_i()
+    when '2'
+      number1.to_i() - number2.to_i()
+    when '3'
+      result = number1.to_i() * number2.to_i()
+    when '4'
+      result = number1.to_f() / number2.to_f()
   end
 
   prompt("Result: #{result}")
