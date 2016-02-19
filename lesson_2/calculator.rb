@@ -6,6 +6,19 @@ def valid_number?(num)
   num.to_i() != 0
 end
 
+def operation_to_message(op)
+  case op
+  when '1'
+    'Adding'
+  when '2'
+    'Subtracting'
+  when '3'
+    'Multiplying'
+  when '4'
+    'Dividing'
+  end
+end
+
 prompt("Welcome to calculator! What's your name?")
 
 name = ''
@@ -67,6 +80,8 @@ loop do
       prompt("Must choose 1, 2, 3, or 4")
     end
   end
+
+  prompt("#{operation_to_message(operator)} the numbers...")
 
   result = case operator
     when '1'
