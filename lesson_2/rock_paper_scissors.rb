@@ -23,8 +23,21 @@ end
 loop do
   choice = ''
   loop do
-    prompt("Choose one: #{VALID_CHOICES.join(', ')}")
+    prompt("Choose one: #{VALID_CHOICES.join(', ')}. Type just the first letter.")
     choice = gets.chomp
+    if choice.length == 1
+      case
+      when choice.downcase == 'r'
+        choice = 'rock'
+      when choice.downcase == 'p'
+        choice = 'paper'
+      when choice.downcase == 's'
+        choice = 'scissors'
+      else choice = ''
+      end
+    else
+      break
+    end
 
     if VALID_CHOICES.include?(choice)
       break
