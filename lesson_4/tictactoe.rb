@@ -57,7 +57,16 @@ def board_full?(brd)
 end
 
 def someone_won?(brd)
-  false
+  !!detect_winner(brd) # !! turns the value into a boolean
+end
+
+def detect_winner(brd)
+  winning_lines = [[1,2,3],[4,5,6],[7,8,9]] + # rows
+                  [[2,5,8],[1,4,7],[3,6,9]] + # columns
+                  [[1,5,9],[3,5,7]]           # diagonals
+
+  winning_lines.each do |line|
+    binding.pry
 end
 
 board = initialize_board
@@ -68,6 +77,12 @@ loop do
   computer_places_piece!(board)
   display_board(board)
   break if someone_won?(board) || board_full?(board)
+end
+
+if someone_won?(board)
+  prompt "#{detect_winnder(board)} won!"
+else
+  prompt "It's a tie."
 end
 
 display_board(board)
