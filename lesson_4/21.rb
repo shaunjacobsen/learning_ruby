@@ -20,7 +20,7 @@ def deal(quantity, cards, recipient)
   recipient
 end
 
-def get_value(cards)
+def get_value(cards, player)
   sum = 0
   cards.each do |n|
     if n.is_a? Integer
@@ -30,15 +30,20 @@ def get_value(cards)
       when "Jack", "Queen", "King"
         sum += 10
       else
-        sum += determine_value(n)
+        sum += determine_value(n, cards, player)
       end
     end
   end
   sum
 end
 
-def determine_value(card)
-  return 0
+def determine_value(card, deck, player)
+  player_score = get_value(deck, player)
+  if (player_score + 11) < 21
+    11
+  else
+    1
+  end
 end
 
 def end_game?(player, dealer)
@@ -46,7 +51,13 @@ def end_game?(player, dealer)
 end
 
 def winner(player, dealer)
-  puts "IDK"
+  if get_value(player) > 21 || (get_value(player) < get_value(dealer) && get_value(dealer) < 22)
+    puts "You lost."
+  elsif get_value(dealer) > 21 || (get_value(player) > get_value(dealer) && get_value(player) < 22)
+    puts "You won!"
+  else
+    puts "It's a tie."
+  end
 end
 
 deal(2, deck, players_cards)
@@ -59,10 +70,12 @@ loop do
   prompt("Hit or Stay?")
   answer = gets.chomp
 
+  break if answer.start_with?('s')
+
   deal(1, deck, players_cards)
+  prompt("Your cards: #{show_cards(players_cards)}")
 
   break if end_game?(players_cards, dealers_cards)
-  prompt("Your cards: #{show_cards(players_cards)}")
 end
 
 prompt "End of game"
