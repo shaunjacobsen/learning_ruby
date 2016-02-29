@@ -1,9 +1,16 @@
+require 'pry'
+
 deck = [2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10] +
        ["Jack","Jack","Jack","Jack","Queen","Queen","Queen","Queen","King","King","King","King"] +
        ["Ace","Ace","Ace","Ace"]
 
+VALUES = { "King": 10, "Queen": 10, "Jack": 10 }
+
 players_cards = []
 dealers_cards = []
+
+player_score = 0
+dealer_score = 0
 
 def prompt(msg)
   puts "=> #{msg}"
@@ -17,10 +24,11 @@ def deal(quantity, cards, recipient)
   quantity.to_i.times do |x|
     recipient << cards.delete_at(rand(cards.length))
   end
-  recipient
+  recipient.last
+  binding.pry
 end
 
-def get_value(cards, player)
+def get_value(cards)
   sum = 0
   cards.each do |n|
     if n.is_a? Integer
@@ -30,11 +38,19 @@ def get_value(cards, player)
       when "Jack", "Queen", "King"
         sum += 10
       else
-        sum += determine_value(n, cards, player)
+        sum += 0
       end
     end
   end
   sum
+end
+
+def increase_score(recipient, value)
+  if value.is_a? Integer
+    recipient += value
+  elsif value.is_a? String
+    recipient += values_at(value)
+  end
 end
 
 def determine_value(card, deck, player)
@@ -72,13 +88,14 @@ loop do
 
   break if answer.start_with?('s')
 
-  deal(1, deck, players_cards)
+  new_card = deal(1, deck, players_cards)
+  p increase_score(player_score, new_card)
   prompt("Your cards: #{show_cards(players_cards)}")
 
   break if end_game?(players_cards, dealers_cards)
 end
 
 prompt "End of game"
-prompt "You had #{get_value(players_cards)} total points"
-prompt "Dealer had #{get_value(dealers_cards)} total points"
+prompt "You had #{player_score} total points"
+prompt "Dealer had #{dealer_score} total points"
 prompt winner(players_cards, dealers_cards)
