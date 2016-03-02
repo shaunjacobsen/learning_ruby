@@ -45,12 +45,16 @@ end
 def determine_card_value(card, score)
   if card[1] == "Ace"
     if (score + 10) <= 21
-      card[2] = 10
+      card[2] = 11
     else
       card[2] = 1
     end
   end
   card[2]
+end
+
+def dealer_hits?(score)
+  score <= 17
 end
 
 def at_or_over_21?(score)
@@ -91,13 +95,17 @@ until (at_or_over_21?(player_score) || at_or_over_21?(dealer_score)) do
   prompt "Hit [h] or Stay [s]?"
   answer = gets.chomp
 
-  break if answer.downcase.start_with?('s')
-
-  player_score = deal(1, player_cards, deck, player_score)
-  prompt "Your hand:"
-  puts get_cards(player_cards)
-  prompt "Your score:"
-
+  if answer.downcase.start_with?('s')
+    if dealer_hits?(dealer_score)
+      dealer_score = deal(1, dealer_cards, deck, dealer_score)
+    else break
+    end
+  elsif answer.downcase.start_with?('h')
+    player_score = deal(1, player_cards, deck, player_score)
+    prompt "Your hand:"
+    puts get_cards(player_cards)
+    prompt "Your score:"
+  end
 end
 
 prompt "Your hand: #{get_cards(player_cards)}"
