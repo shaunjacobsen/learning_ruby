@@ -1,5 +1,3 @@
-require 'pry'
-
 CARDS = [["2", 2], ["3", 3], ["4", 4], ["5", 5], ["6", 6], ["7", 7], ["8", 8], ["9", 9], ["10", 10]] +
         [["Jack", 10], ["Queen", 10], ["King", 10], ["Ace", 0]]
 
@@ -17,23 +15,22 @@ end
 
 def initialize_deck(cards, deck)
   suits = %w(Hearts Spades Clubs Diamonds)
-  suits.each do |s|
-    cards.each do |c|
-      deck << [s, c].flatten
+  suits.each do |suit|
+    cards.each do |card|
+      deck << [suit, card].flatten
     end
   end
   deck
 end
 
 def show_cards(hand)
-  joined_hand = []
-  hand.map { |c| joined_hand << c[1] }
+  joined_hand = hand.map { |card| card[1] }
   joined_hand.join(', ')
 end
 
 def obscure_cards(hand)
   cards_to_hide = hand.drop(1)
-  unknown_string = cards_to_hide.length.times.collect { ", unknown" }.join.to_s
+  unknown_string = cards_to_hide.length.times.collect { ", unknown" }.join
   hand[0][1] + unknown_string
 end
 
@@ -48,17 +45,17 @@ end
 
 def hand_value(hand)
   card_values = []
-  sorted_hand = hand.sort_by { |x| x[2] }.reverse
-  sorted_hand.each do |c|
-    if c[1] == "Ace"
+  sorted_hand = hand.sort_by { |card| card[2] }.reverse
+  sorted_hand.each do |card|
+    if card[1] == "Ace"
       if (card_values.inject(:+) + 10) <= 21
-        c[2] = 11
+        card[2] = 11
       else
-        c[2] = 1
+        card[2] = 1
       end
-      card_values << c[2]
+      card_values << card[2]
     else
-      card_values << c[2]
+      card_values << card[2]
     end
   end
   card_values.inject(:+)
@@ -69,7 +66,7 @@ def dealer_hits?(score)
 end
 
 def bust?(score)
-  score >= 21
+  score > 21
 end
 
 def who_won?(player, dealer)
@@ -121,8 +118,6 @@ until (bust?(player_score) || bust?(dealer_score))
     player_score = hand_value(player_cards)
     prompt "Your hand: #{show_cards(player_cards)}"
   end
-
-  #binding.pry
 end
 
 prompt "Game over!\n"
