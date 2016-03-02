@@ -110,7 +110,8 @@ until (bust?(player_score) || bust?(dealer_score))
       deal(1, dealer_cards, deck, dealer_score)
       dealer_score = hand_value(dealer_cards)
       prompt "Dealer's hand: #{obscure_cards(dealer_cards)}"
-    else break
+    else
+      break
     end
   elsif answer.downcase.start_with?('h')
     prompt "Dealing card to you..."
