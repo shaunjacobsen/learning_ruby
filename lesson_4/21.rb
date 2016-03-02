@@ -33,23 +33,17 @@ end
 
 def obscure_cards(hand)
   cards_to_hide = hand.drop(1)
-  unknown_string = cards_to_hide.length.times.collect { |x| ", unknown" }.join.to_s
+  unknown_string = cards_to_hide.length.times.collect { ", unknown" }.join.to_s
   hand[0][1] + unknown_string
 end
 
 def deal(qty, hand, deck, recipient)
   score = 0
-  qty.times do |x|
+  qty.times do
     returned_card = deck.delete_at(rand(deck.length))
-    returned_card_value = determine_card_value(returned_card, recipient)
     hand << returned_card
-    score += returned_card_value
   end
   increment_score(recipient, score)
-end
-
-def determine_card_value(card, score)
-  card[2]
 end
 
 def hand_value(hand)
@@ -97,10 +91,6 @@ def increment_score(recipient, amount)
   recipient += amount
 end
 
-def update_score(recipient, hand)
-  recipient = hand_value(hand)
-end
-
 initialize_deck(CARDS, deck)
 
 prompt "Dealing cards..."
@@ -113,7 +103,7 @@ dealer_score = hand_value(dealer_cards)
 prompt "Your hand: #{show_cards(player_cards)}"
 prompt "Dealer's hand: #{obscure_cards(dealer_cards)}"
 
-until (bust?(player_score) || bust?(dealer_score)) do
+until (bust?(player_score) || bust?(dealer_score))
   prompt "Hit [h] or Stay [s]?"
   answer = gets.chomp
 
