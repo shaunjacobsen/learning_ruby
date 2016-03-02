@@ -125,7 +125,7 @@ until (bust?(player_score) || bust?(dealer_score))
   #binding.pry
 end
 
-prompt "TWENTY-ONE REACHED!\n"
+prompt "Game over!\n"
 prompt "Your score: #{player_score}."
 prompt "Dealer's hand, revealed: #{show_cards(dealer_cards)}"
 prompt "Dealer's score: #{dealer_score}."
