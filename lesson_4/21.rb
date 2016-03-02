@@ -1,101 +1,107 @@
 require 'pry'
 
-deck = [2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10] +
-       ["Jack","Jack","Jack","Jack","Queen","Queen","Queen","Queen","King","King","King","King"] +
-       ["Ace","Ace","Ace","Ace"]
+CARDS = [["2", 2], ["3", 3], ["4", 4], ["5", 5], ["6", 6], ["7", 7], ["8", 8], ["9", 9], ["10", 10]] +
+        [["Jack", 10], ["Queen", 10], ["King", 10], ["Ace", 0]]
 
-VALUES = { "King": 10, "Queen": 10, "Jack": 10 }
+deck = []
 
-players_cards = []
-dealers_cards = []
-
-player_score = 0
 dealer_score = 0
+player_score = 0
+
+dealer_cards = []
+player_cards = []
 
 def prompt(msg)
   puts "=> #{msg}"
 end
 
-def show_cards(player)
-  player.join(", ")
+def get_cards(hand)
+  joined_hand = []
+  hand.map { |c| joined_hand << c[1] }
+  joined_hand.join(', ')
 end
 
-def deal(quantity, cards, recipient)
-  quantity.to_i.times do |x|
-    recipient << cards.delete_at(rand(cards.length))
-  end
-  recipient.last
-  binding.pry
-end
-
-def get_value(cards)
-  sum = 0
-  cards.each do |n|
-    if n.is_a? Integer
-      sum += n
-    elsif n.is_a? String
-      case n
-      when "Jack", "Queen", "King"
-        sum += 10
-      else
-        sum += 0
-      end
+def initialize_deck(cards, deck)
+  suits = %w(Hearts Spades Clubs Diamonds)
+  suits.each do |s|
+    cards.each do |c|
+      deck << [s, c].flatten
     end
   end
-  sum
+  deck
 end
 
-def increase_score(recipient, value)
-  if value.is_a? Integer
-    recipient += value
-  elsif value.is_a? String
-    recipient += values_at(value)
+def deal(qty, hand, deck, recipient)
+  score = 0
+  qty.times do |x|
+    returned_card = deck.delete_at(rand(deck.length))
+    returned_card_value = determine_card_value(returned_card, recipient)
+    hand << returned_card
+    score += returned_card_value
   end
+  increment_score(recipient, score)
 end
 
-def determine_value(card, deck, player)
-  player_score = get_value(deck, player)
-  if (player_score + 11) < 21
-    11
+def determine_card_value(card, score)
+  if card[1] == "Ace"
+    if (score + 10) <= 21
+      card[2] = 10
+    else
+      card[2] = 1
+    end
+  end
+  card[2]
+end
+
+def at_or_over_21?(score)
+  score >= 21
+end
+
+def who_won?(player, dealer)
+  case
+  when (player > dealer) && player <= 21
+    "Player won!"
+  when (player > dealer) && player > 21
+    "Dealer won!"
+  when (dealer > player) && dealer <= 21
+    "Dealer won!"
+  when (dealer > player) && dealer > 21
+    "Player won!"
   else
-    1
+    "It's a tie."
   end
 end
 
-def end_game?(player, dealer)
-  get_value(player) >= 21 || get_value(dealer) >= 21
+def increment_score(recipient, amount)
+  recipient += amount
 end
 
-def winner(player, dealer)
-  if get_value(player) > 21 || (get_value(player) < get_value(dealer) && get_value(dealer) < 22)
-    puts "You lost."
-  elsif get_value(dealer) > 21 || (get_value(player) > get_value(dealer) && get_value(player) < 22)
-    puts "You won!"
-  else
-    puts "It's a tie."
-  end
-end
+initialize_deck(CARDS, deck)
 
-deal(2, deck, players_cards)
-deal(2, deck, dealers_cards)
+prompt "Dealing cards..."
+player_score = deal(2, player_cards, deck, player_score)
+dealer_score = deal(2, dealer_cards, deck, dealer_score)
+prompt "Your hand:"
+puts get_cards(player_cards)
 
-prompt("Your cards: #{show_cards(players_cards)}")
-prompt("Dealer's cards: #{dealers_cards.first}, unknown")
+prompt "Dealer's hand:"
+puts dealer_cards[0][1] + ", unknown"
 
-loop do
-  prompt("Hit or Stay?")
+until (at_or_over_21?(player_score) || at_or_over_21?(dealer_score)) do
+  prompt "Hit [h] or Stay [s]?"
   answer = gets.chomp
 
-  break if answer.start_with?('s')
+  break if answer.downcase.start_with?('s')
 
-  new_card = deal(1, deck, players_cards)
-  p increase_score(player_score, new_card)
-  prompt("Your cards: #{show_cards(players_cards)}")
+  player_score = deal(1, player_cards, deck, player_score)
+  prompt "Your hand:"
+  puts get_cards(player_cards)
+  prompt "Your score:"
 
-  break if end_game?(players_cards, dealers_cards)
 end
 
-prompt "End of game"
-prompt "You had #{player_score} total points"
-prompt "Dealer had #{dealer_score} total points"
-prompt winner(players_cards, dealers_cards)
+prompt "Your hand: #{get_cards(player_cards)}"
+prompt "Your score: #{player_score}."
+prompt "Dealer's hand, revealed: #{get_cards(dealer_cards)}"
+prompt "Dealer's score: #{dealer_score}."
+puts who_won?(player_score, dealer_score)
