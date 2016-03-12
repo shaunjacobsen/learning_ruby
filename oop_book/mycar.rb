@@ -31,3 +31,7 @@ end
 highlander = MyCar.new("2012", "Black", "Highlander")
 highlander.change_color("Red")
 puts highlander.year
+highlander.year = "2014"
+puts highlander.year
+highlander.color = "blue"
+puts highlander.color
