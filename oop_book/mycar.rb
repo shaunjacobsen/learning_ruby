@@ -21,7 +21,7 @@ class MyCar
     speed = 0
   end
 
-  def change_color(new_color)
+  def spray_paint(new_color)
     self.color = new_color
     puts "Your car is #{color} now"
   end
@@ -29,9 +29,5 @@ class MyCar
 end
 
 highlander = MyCar.new("2012", "Black", "Highlander")
-highlander.change_color("Red")
+highlander.spray_paint("Red")
 puts highlander.year
-highlander.year = "2014"
-puts highlander.year
-highlander.color = "blue"
-puts highlander.color
