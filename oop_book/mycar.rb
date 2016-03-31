@@ -26,8 +26,18 @@ class MyCar
     puts "Your car is #{color} now"
   end
 
+  def self.gas_mileage(km, litres)
+    puts "The fuel efficiency is #{km / litres} km per litre of gas."
+  end
+
+  def to_s
+    "This is a #{@year} #{@color} #{@model}."
+  end
+
 end
 
 highlander = MyCar.new("2012", "Black", "Highlander")
 highlander.spray_paint("Red")
 puts highlander.year
+MyCar.gas_mileage(400, 45)
+puts highlander
