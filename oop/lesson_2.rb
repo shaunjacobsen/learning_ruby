@@ -36,13 +36,33 @@
 
 ### Lecture: Inheritance
 
-class Dog
+class Domesticated_Animal
+  def run
+    'running!'
+  end
+
+  def jump
+    'jumping!'
+  end
+end
+
+class Dog < Domesticated_Animal
   def speak
     'bark!'
   end
 
   def swim
     'swimming!'
+  end
+
+  def fetch
+    'fetching!'
+  end
+end
+
+class Cat < Domesticated_Animal
+  def speak
+    'meow!'
   end
 end
 
@@ -58,3 +78,5 @@ puts teddy.swim
 frenchie = Bulldog.new
 puts frenchie.speak
 puts frenchie.swim
+kitty = Cat.new
+puts kitty.speak
