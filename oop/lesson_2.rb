@@ -24,4 +24,8 @@ end
 
 bob = Person.new('Robert Smith')
 rob = Person.new('Robert Smith')
-bob.name == rob.name ? puts "Yes" : puts "No"
+if bob.name == rob.name
+  puts "Yes"
+else
+  puts "No"
+end
