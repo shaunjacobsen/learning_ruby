@@ -22,13 +22,6 @@ class Person
   end
 end
 
-bob = Person.new('Robert')
-puts bob.name
-puts bob.first_name
-puts bob.last_name
-bob.last_name = 'Smith'
-puts bob.name
-
-bob.name = "John"
-puts bob.first_name
-puts bob.last_name
+bob = Person.new('Robert Smith')
+rob = Person.new('Robert Smith')
+bob.name == rob.name ? puts "Yes" : puts "No"
