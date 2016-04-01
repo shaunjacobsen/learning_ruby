@@ -14,10 +14,10 @@ class Person
   def name=(name)
     name_parts = name.split
     if name_parts.size > 1
-      @first_name = name_parts.first
-      @last_name = name_parts.last
+      self.first_name = name_parts.first
+      self.last_name = name_parts.last
     elsif name_parts.size == 1
-      @first_name = name_parts.first
+      self.first_name = name_parts.first
     else
       puts "Error"
     end
