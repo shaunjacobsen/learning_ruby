@@ -13,6 +13,10 @@ class Person
     parse_full_name(name)
   end
 
+  def to_s
+    name
+  end
+
   private
 
   def parse_full_name(name)
@@ -24,8 +28,5 @@ end
 
 bob = Person.new('Robert Smith')
 rob = Person.new('Robert Smith')
-if bob.name == rob.name
-  puts "Yes"
-else
-  puts "No"
-end
+
+puts "The person's name is #{bob}"
