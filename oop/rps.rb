@@ -18,29 +18,15 @@ class Move
   end
 
   def >(other_move)
-    if rock?
-      return true if other_move.scissors?
-      return false
-    elsif paper?
-      return true if other_move.rock?
-      return false
-    elsif scissors?
-      return true if other_move.paper?
-      return false
-    end
+    (rock? && other_move.scissors?) ||
+      (paper? && other_move.rock?) ||
+      (scissors? && other_move.paper?)
   end
 
   def <(other_move)
-    if rock?
-      return true if other_move.paper?
-      return false
-    elsif paper?
-      return true if other_move.scissors?
-      return false
-    elsif scissors?
-      return true if other_move.rock?
-      return false
-    end
+    (rock? && other_move.paper?) ||
+      (paper? && other_move.scissors?) ||
+      (scissors? && other_move.rock?)
   end
 
   def to_s
@@ -149,7 +135,6 @@ class RPSGame
     end
 
     return true if answer == 'y'
-    return false
   end
 
   def play
