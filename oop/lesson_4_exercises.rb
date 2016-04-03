@@ -61,3 +61,35 @@
 
 # Question 10
 # Keeps code cleaner and more compartamentalized, DRYs up the code, easier to manage complexity.
+
+### Easy 3
+
+# Question 1
+# Case 1: "Hello"
+# Case 2: Error, undefined method
+# Case 3: Error, wrong number of arguments
+# Case 4: "Goodbye"
+# Case 5: Error, undefined method
+
+# Question 2
+# To fix this, put 'self.' before 'hi' (line 8) and 'greet' (line 2)
+
+# Question 3
+# angry_cat_1 = AngryCat.new(3, "Grumpy")
+# angry_cat_2 = AngryCat.new(5, "Crabby")
+
+# Question 4
+# Define a to_s method in the class:
+# def to_s
+#   "I am a #{type} cat."
+# end
+
+# Question 5
+# tv.manufacturer does not work; there is no method defined on the instance, only the class.
+# Television.model will also not work as there is no 'model' method on the class, only the instance.
+
+# Question 6
+# Replace 'self.' with '@'
+
+# Question 7
+# "Return", since ruby already returns the last line.
