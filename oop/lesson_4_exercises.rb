@@ -93,3 +93,71 @@
 
 # Question 7
 # "Return", since ruby already returns the last line.
+
+### Medium 1
+
+# Question 1
+# Ben is right, because the attr_reader contains the symbol :balance, which creates a getter method for @balance.
+
+# Question 2
+# 'attr_accessor' should be used on :quantity if you want to use the 'update_quantity' method, or you must use '@quantity = ' in the method.
+
+# Question 3
+# If you didn't want to allow @quantity to be re-set in the application, then there is a problem since changing attr_reader to attr_accessor will make updating the value possible.
+
+# Question 4
+class Greeting
+  def greet(str)
+    print str
+  end
+end
+
+class Hello < Greeting
+  def hi
+    greet('Hello')
+  end
+end
+
+class Goodbye < Greeting
+  def bye
+    greet('Goodbye')
+  end
+end
+
+# Question 5
+class KrispyKreme
+  def initialize(filling_type="Plain", glazing)
+    @filling_type = filling_type
+    @glazing = glazing
+  end
+
+  def to_s
+    @filling_type == nil ? @filling_type = "Plain" : nil
+    if @glazing == nil
+      "#{@filling_type}"
+    else
+      "#{@filling_type} with #{@glazing}"
+    end
+  end
+end
+
+donut1 = KrispyKreme.new(nil, nil)
+donut2 = KrispyKreme.new("Vanilla", nil)
+donut3 = KrispyKreme.new(nil, "sugar")
+donut4 = KrispyKreme.new(nil, "chocolate sprinkles")
+donut5 = KrispyKreme.new("Custard", "icing")
+
+puts donut1
+puts donut2
+puts donut3
+puts donut4
+puts donut5
+
+# Question 6
+# There isn't a difference, the code works the same.
+
+# Question 7
+# Rename the 'light_information' method to 'information', since calling it requires writing 'Light.light_information', which is redundant.
+
+### 
+
