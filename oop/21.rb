@@ -23,7 +23,7 @@ class Deck
   end
 
   def deal
-    deck.shuffle.pop
+    deck.shuffle!.pop
   end
 
 end
@@ -34,7 +34,11 @@ end
 
 class Game
   def start
-    #deal_cards
+    game_deck = Deck.new
+    p game_deck
+    p game_deck.deal
+    puts "---"
+    p game_deck
     #show_initial_cards
     #player_turn
     #dealer_turn
@@ -43,8 +47,3 @@ class Game
 end
 
 Game.new.start
-game_deck = Deck.new
-p game_deck
-puts "---"
-p game_deck.deal
-p game_deck
