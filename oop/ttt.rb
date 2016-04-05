@@ -88,10 +88,12 @@ class Square
 end
 
 class Player
+  attr_accessor :score
   attr_reader :marker
 
   def initialize(marker)
     @marker = marker
+    @score = 0
   end
 end
 
@@ -147,6 +149,24 @@ class TTTGame
   def computer_moves
     board[board.unmarked_keys.sample] = computer.marker
     @turn = human
+  end
+
+  def winner
+    board.winning_marker == TTTGame::HUMAN_MARKER ? human : computer
+  end
+
+  def increment_score(player)
+    if winner == human
+      human.score += 1
+    elsif winner == computer
+      computer.score += 1
+    else
+      nil
+    end
+  end
+
+  def display_scores
+    puts "You: #{human.score} // Computer: #{computer.score}"
   end
 
   def display_result
@@ -208,6 +228,8 @@ class TTTGame
         clear_screen_and_display_board if human_turn?
       end
       display_result
+      increment_score(winner)
+      display_scores
       break unless play_again?
       reset
       display_play_again_message
