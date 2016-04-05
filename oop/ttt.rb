@@ -40,12 +40,6 @@ class Board
     !!winning_marker # !! turns this into true (if there's a marker) or false (if nil)
   end
 
-  def three_matching_markers?(squares)
-    markers = squares.select(&:marked?).collect(&:marker)
-    return false if markers.size != 3
-    markers.min == markers.max
-  end
-
   # returns the winning marker, or nil (nil = nobody won)
   def winning_marker
     WINNING_LINES.each do |line|
@@ -60,6 +54,15 @@ class Board
   def reset
     (1..9).each { |key| @squares[key] = Square.new }
   end
+
+  private
+
+  def three_matching_markers?(squares)
+    markers = squares.select(&:marked?).collect(&:marker)
+    return false if markers.size != 3
+    markers.min == markers.max
+  end
+  
 end
 
 class Square
