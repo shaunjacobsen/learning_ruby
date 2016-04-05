@@ -1,6 +1,10 @@
 require 'pry'
 
 class Board
+  WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
+                  [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
+                  [[1, 5, 9], [3, 5, 7]]
+
   def initialize
     @squares = {}
     (1..9).each { |key| @squares[key] = Square.new }
@@ -20,6 +24,23 @@ class Board
 
   def full?
     unmarked_keys.empty?
+  end
+
+  def someone_won?
+    !!detect_winner # !! turns this into true (if there's a marker) or false (if nil)
+  end
+
+  # returns the winning marker, or nil (nil = nobody won)
+  def detect_winner
+    WINNING_LINES.each do |line|
+      if @squares[line[0]].marker == TTTGame::HUMAN_MARKER && @squares[line[1]].marker == TTTGame::HUMAN_MARKER && @squares[line[2]].marker == TTTGame::HUMAN_MARKER
+        return TTTGame::HUMAN_MARKER
+      elsif
+        @squares[line[0]].marker == TTTGame::COMPUTER_MARKER && @squares[line[1]].marker == TTTGame::COMPUTER_MARKER && @squares[line[2]].marker == TTTGame::COMPUTER_MARKER
+        return TTTGame::COMPUTER_MARKER
+      end
+    end
+    return nil # 'return' is redundant here but it helps me understand what is happening
   end
 end
 
@@ -100,12 +121,20 @@ class TTTGame
   end
 
   def computer_moves
-      board.set_square_at(board.unmarked_keys.sample, computer.marker)
+    board.set_square_at(board.unmarked_keys.sample, computer.marker)
   end
 
   def display_result
-      display_board
-      puts "The board is full!"
+    display_board
+
+    case board.detect_winner
+    when human.marker
+      puts "You won!"
+    when computer.marker
+      puts "Computer won!"
+    else
+      puts "It's a tie!"
+    end
   end
 
   def play
@@ -113,12 +142,10 @@ class TTTGame
     display_board
     loop do
       human_moves
-      break if board.full?
-      #break if someone_won? || board_full?
+      break if board.someone_won? || board.full?
       
       computer_moves
-      break if board.full?
-      #break if someone_won? || board_full?
+      break if board.someone_won? || board.full?
       display_board
     end
 
