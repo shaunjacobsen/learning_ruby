@@ -105,8 +105,8 @@ class TTTGame
     puts "Thanks for playing!"
   end
 
-  def display_board(do_clear=true)
-    clear if do_clear # clear the terminal window if the clear parameter is true
+  def display_board(options = {clear_screen: true})
+    clear if options[:clear_screen] # clear the terminal window if the clear parameter is true
     puts "You're #{human.marker} // Computer is #{computer.marker}"
     puts ""
     puts "     |     |"
@@ -169,7 +169,7 @@ class TTTGame
     clear
 
     loop do
-      display_board(false)
+      display_board(clear_screen: false)
       loop do
         human_moves
         break if board.someone_won? || board.full?
