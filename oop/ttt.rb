@@ -7,7 +7,7 @@ class Board
 
   def initialize
     @squares = {}
-    (1..9).each { |key| @squares[key] = Square.new }
+    reset
   end
 
   def get_square_at(key)
@@ -48,6 +48,10 @@ class Board
       end
     end
     return nil # 'return' is redundant here but it helps me understand what is happening
+  end
+
+  def reset
+    (1..9).each { |key| @squares[key] = Square.new }
   end
 end
 
@@ -97,8 +101,8 @@ class TTTGame
     puts "Thanks for playing!"
   end
 
-  def display_board
-    system 'clear'
+  def display_board(clear=true)
+    system 'clear' if clear # clear the terminal window if the clear parameter is true
     puts "You're #{human.marker} // Computer is #{computer.marker}"
     puts ""
     puts "     |     |"
@@ -144,19 +148,39 @@ class TTTGame
     end
   end
 
+  def play_again?
+    answer = nil
+    loop do
+      puts "Would you like to play again? (y/n)"
+      answer = gets.chomp.downcase
+      break if %w(y n).include? answer
+      puts "Sorry, must type 'y' or 'n':"
+    end
+    
+    answer == 'y' # returns true if answer is 'y'
+  end
+
   def play
     display_welcome_message
-    display_board
-    loop do
-      human_moves
-      break if board.someone_won? || board.full?
-      
-      computer_moves
-      break if board.someone_won? || board.full?
-      display_board
-    end
+    system 'clear'
 
-    display_result
+    loop do
+      display_board(false)
+      loop do
+        human_moves
+        break if board.someone_won? || board.full?
+        
+        computer_moves
+        break if board.someone_won? || board.full?
+
+        display_board
+      end
+      display_result
+      break unless play_again?
+      board.reset
+      system 'clear'
+      puts "Let's play again!"
+    end
     display_goodbye_message
   end
 end
