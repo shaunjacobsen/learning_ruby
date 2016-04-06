@@ -1,7 +1,14 @@
 require 'pry'
 
 class Hand
+  attr_accessor :hand_array
   def initialize
+    2.times do
+      @hand_array << @game_deck.deal
+    end
+  end
+
+  def show
   end
 
 end
@@ -32,13 +39,27 @@ class Card
 
 end
 
+class Player
+  attr_accessor :player_type, :player_hand
+
+  def initialize(player_type)
+    @player_type = player_type
+    @player_hand = Hand.new
+  end
+end
+
 class Game
+  attr_accessor :game_deck
+
+  def initialize
+    @game_deck = Deck.new
+    @human = Player.new('human')
+    @dealer = Player.new('dealer')
+  end
+
   def start
-    game_deck = Deck.new
-    p game_deck
-    p game_deck.deal
-    puts "---"
-    p game_deck
+    
+    
     #show_initial_cards
     #player_turn
     #dealer_turn
