@@ -132,22 +132,46 @@ class TwentyOne
   end
 
   def start
-    system 'clear'
-    deal_cards
     loop do
-      break if end?
-      player_turn
-      break if human.bust?
-      puts "Dealer's turn..."
-      dealer_turn
-      puts ""
+      system 'clear'
+      deal_cards
+      loop do
+        break if end?
+        player_turn
+        break if human.bust?
+        puts "Dealer's turn..."
+        dealer_turn
+        puts ""
+      end
+      show_result
+      break if !play_again?
     end
-    show_result
   end
 
   def end?
     two_stays? || human.bust? || dealer.bust? || winner?
   end
+
+  def play_again?
+    puts "Do you want to play again? y or n:"
+    answer = ''
+    loop do
+      answer = gets.chomp.downcase
+      break if %w(y n).include? answer
+      "Incorrect input. Type 'y' if you want to play again, 'n' if not:"
+    end
+    if answer.start_with?('y')
+      reset
+      return true
+    end
+  end
+
+  def reset
+    self.deck = Deck.new
+    self.human = Human.new
+    self.dealer = Dealer.new
+  end
+
 
   def deal_cards
     [human, dealer].each do |participant|
