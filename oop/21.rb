@@ -3,8 +3,8 @@ require 'pry'
 class Card
   attr_accessor :suit, :face
 
-  SUITS = %w(Hearts Clubs Spades Diamonds)
-  FACES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
+  SUITS = %w(Hearts Clubs Spades Diamonds).freeze
+  FACES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'].freeze
 
   def initialize(suit, face)
     @suit = suit
@@ -31,7 +31,6 @@ class Card
   def to_s
     "#{@face} of #{@suit}"
   end
-
 end
 
 class Deck
@@ -54,21 +53,20 @@ class Deck
   def deal
     cards.pop
   end
-
 end
 
 module Hand
   def total_value
     card_values = []
-    cards.reverse.each do |card|
+    cards.reverse_each do |card|
       actual_value = 0
-      if card.value == 0 && card_values.inject(:+) != nil
+      if card.value == 0 && !card_values.inject(:+).nil?
         if card_values.inject(:+) + 10 <= 21
           actual_value = 11
         else
           actual_value = 1
         end
-      elsif card.value == 0 && card_values.inject(:+) == nil
+      elsif card.value == 0 && card_values.inject(:+).nil?
         actual_value = 11
       else
         actual_value = card.value
@@ -77,7 +75,6 @@ module Hand
     end
     card_values.inject(:+)
   end
-
 end
 
 class Player
@@ -100,7 +97,6 @@ class Player
     end
     current_cards.join(', ')
   end
-
 end
 
 class Human < Player
@@ -113,12 +109,11 @@ class Dealer < Player
   def show_hand
     hand = [cards[0]]
     cards_to_hide = cards.drop(1)
-    cards_to_hide.each do |card|
+    cards_to_hide.each do
       hand << "unknown"
     end
     hand.join(', ')
   end
-
 end
 
 class TwentyOne
@@ -171,7 +166,6 @@ class TwentyOne
     self.human = Human.new
     self.dealer = Dealer.new
   end
-
 
   def deal_cards
     [human, dealer].each do |participant|
@@ -257,8 +251,6 @@ class TwentyOne
     puts "You: #{human.total_value} / Dealer: #{dealer.total_value}"
     puts who_won
   end
-
-
 end
 
 game = TwentyOne.new
