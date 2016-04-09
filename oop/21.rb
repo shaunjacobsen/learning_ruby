@@ -51,7 +51,7 @@ class Dealer < Player
 
 end
 
-class Hand
+module Hand
 
 end
 
