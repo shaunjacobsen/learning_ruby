@@ -26,6 +26,10 @@ class Card
     end
   end
 
+  def to_s
+    "#{@face} of #{@suit}"
+  end
+
 end
 
 class Deck
@@ -56,12 +60,14 @@ module Hand
     card_values = []
     cards.reverse.each do |card|
       actual_value = 0
-      if card.value == 0
+      if card.value == 0 && card_values.inject(:+) != nil
         if card_values.inject(:+) <= 21
           actual_value = 11
         else
           actual_value = 1
         end
+      elsif card.value == 0 && card_values.inject(:+) == nil
+        actual_value = 11
       else
         actual_value = card.value
       end
@@ -114,12 +120,10 @@ class TwentyOne
         participant.cards << deck.deal
       end
     end
-    p human.cards
-    p dealer.cards
-    p human.total_value
   end
 
   def show_initial_cards
+    puts "Cards in your hand: #{human.cards.join(', ')} (#{human.total_value})"
   end
 
   def player_turn
