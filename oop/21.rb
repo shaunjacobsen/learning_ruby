@@ -1,6 +1,8 @@
 require 'pry'
 
 class Card
+  attr_accessor :suit, :face
+
   SUITS = %w(Hearts Clubs Spades Diamonds)
   FACES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
 
@@ -87,6 +89,18 @@ class Player
     @cards = []
   end
 
+  def bust?
+    total_value > 21
+  end
+
+  def show_cards
+    current_cards = []
+    cards.each do |card|
+      current_cards << "#{card.face} of #{card.suit}"
+    end
+    current_cards.join(', ')
+  end
+
 end
 
 class Human < Player
@@ -95,23 +109,44 @@ end
 
 class Dealer < Player
 
+  def show_hand
+    hand = [cards[0]]
+    cards_to_hide = cards.drop(1)
+    cards_to_hide.each do |card|
+      hand << "unknown"
+    end
+    hand.join(', ')
+  end
+
 end
 
 class TwentyOne
-  attr_accessor :deck, :human, :dealer
+  attr_accessor :deck, :human, :dealer, :turns
 
   def initialize
     @deck = Deck.new
     @human = Human.new
     @dealer = Dealer.new
+    @turns = []
   end
 
   def start
+    system 'clear'
     deal_cards
-    show_initial_cards
-    player_turn
-    dealer_turn
+    show_cards
+    loop do
+      break if end?
+      player_turn
+      break if human.bust?
+      puts "Dealer's turn..."
+      dealer_turn
+      puts ""
+    end
     show_result
+  end
+
+  def end?
+    two_stays? || human.bust? || dealer.bust? || winner?
   end
 
   def deal_cards
@@ -122,17 +157,82 @@ class TwentyOne
     end
   end
 
-  def show_initial_cards
+  def hit(participant)
+    puts "Hitting this round"
+    participant.cards << deck.deal
+    add_turn(participant, 'hit')
+    show_cards
+  end
+
+  def stay(participant)
+    puts "Staying this round"
+    add_turn(participant, 'stay')
+  end
+
+  def two_stays?
+    if turns.length > 1
+      turns[0][1] == 'stay' && turns[1][1] == 'stay'
+    else
+      false
+    end
+  end
+
+  def add_turn(participant, turn)
+    turns.shift if turns.size > 1
+    turns << [participant, turn]
+  end
+
+  def show_cards
     puts "Cards in your hand: #{human.cards.join(', ')} (#{human.total_value})"
   end
 
+
   def player_turn
+    puts "Hit (h) or Stay (s)?"
+    answer = ''
+    loop do
+      answer = gets.chomp.downcase
+      break if %w(h s).include? answer
+      puts "No, choose hit or stay:"
+    end
+    hit(human) if answer.start_with?('h')
+    stay(human) if answer.start_with?('s')
   end
 
   def dealer_turn
+    if dealer.total_value < 17
+      hit(dealer)
+    else
+      stay(dealer)
+    end
+    puts "Dealer's hand: #{dealer.show_hand}."
+  end
+
+  def winner?
+    human.total_value == 21 || dealer.total_value == 21
+  end
+
+  def who_won
+    case
+    when (human.total_value > dealer.total_value) && human.total_value <= 21
+      "Human won!"
+    when (human.total_value > dealer.total_value) && human.total_value > 21
+      "Dealer won!"
+    when (dealer.total_value > human.total_value) && dealer.total_value <= 21
+      "Dealer won!"
+    when (dealer.total_value > human.total_value) && dealer.total_value > 21
+      "Human won!"
+    else
+      "It's a tie."
+    end
   end
 
   def show_result
+    puts "Game over!"
+    puts "Your hand: #{human.show_cards}"
+    puts "Dealer's hand: #{dealer.show_cards}."
+    puts "You: #{human.total_value} / Dealer: #{dealer.total_value}"
+    puts who_won
   end
 
 
