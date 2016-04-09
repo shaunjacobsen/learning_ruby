@@ -9,6 +9,23 @@ class Card
     @face = face
   end
 
+  def value
+    case @face
+    when /[2-9]/
+      @face.to_i
+    when '10'
+      10
+    when 'Jack'
+      10
+    when 'Queen'
+      10
+    when 'King'
+      10
+    when 'Ace'
+      0
+    end
+  end
+
 end
 
 class Deck
@@ -34,7 +51,20 @@ class Deck
 
 end
 
+module Hand
+  def total_value
+    card_values = []
+    cards.each do |card|
+      card_values << card.value
+    end
+    card_values.inject(:+)
+  end
+
+end
+
 class Player
+  include Hand
+
   attr_accessor :cards
 
   def initialize
@@ -48,10 +78,6 @@ class Human < Player
 end
 
 class Dealer < Player
-
-end
-
-module Hand
 
 end
 
@@ -80,6 +106,7 @@ class TwentyOne
     end
     p human.cards
     p dealer.cards
+    p human.total_value
   end
 
   def show_initial_cards
