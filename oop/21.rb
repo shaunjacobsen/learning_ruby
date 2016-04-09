@@ -63,7 +63,7 @@ module Hand
     cards.reverse.each do |card|
       actual_value = 0
       if card.value == 0 && card_values.inject(:+) != nil
-        if card_values.inject(:+) <= 21
+        if card_values.inject(:+) + 10 <= 21
           actual_value = 11
         else
           actual_value = 1
@@ -104,11 +104,12 @@ class Player
 end
 
 class Human < Player
-
+  def show_hand
+    cards.join(', ')
+  end
 end
 
 class Dealer < Player
-
   def show_hand
     hand = [cards[0]]
     cards_to_hide = cards.drop(1)
@@ -133,7 +134,6 @@ class TwentyOne
   def start
     system 'clear'
     deal_cards
-    show_cards
     loop do
       break if end?
       player_turn
@@ -161,7 +161,6 @@ class TwentyOne
     puts "Hitting this round"
     participant.cards << deck.deal
     add_turn(participant, 'hit')
-    show_cards
   end
 
   def stay(participant)
@@ -183,11 +182,11 @@ class TwentyOne
   end
 
   def show_cards
-    puts "Cards in your hand: #{human.cards.join(', ')} (#{human.total_value})"
+    puts "Cards in your hand: #{human.show_hand} (#{human.total_value})"
   end
 
-
   def player_turn
+    show_cards
     puts "Hit (h) or Stay (s)?"
     answer = ''
     loop do
@@ -202,10 +201,10 @@ class TwentyOne
   def dealer_turn
     if dealer.total_value < 17
       hit(dealer)
+      puts "Dealer's hand: #{dealer.show_hand}."
     else
       stay(dealer)
     end
-    puts "Dealer's hand: #{dealer.show_hand}."
   end
 
   def winner?
