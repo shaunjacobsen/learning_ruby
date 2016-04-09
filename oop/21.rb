@@ -54,8 +54,18 @@ end
 module Hand
   def total_value
     card_values = []
-    cards.each do |card|
-      card_values << card.value
+    cards.reverse.each do |card|
+      actual_value = 0
+      if card.value == 0
+        if card_values.inject(:+) <= 21
+          actual_value = 11
+        else
+          actual_value = 1
+        end
+      else
+        actual_value = card.value
+      end
+      card_values << actual_value
     end
     card_values.inject(:+)
   end
