@@ -15,13 +15,7 @@ class Card
     case @face
     when /[2-9]/
       @face.to_i
-    when '10'
-      10
-    when 'Jack'
-      10
-    when 'Queen'
-      10
-    when 'King'
+    when '10', 'Jack', 'Queen', 'King'
       10
     when 'Ace'
       0
@@ -59,19 +53,19 @@ module Hand
   def total_value
     card_values = []
     cards.reverse_each do |card|
-      actual_value = 0
-      if card.value == 0 && !card_values.inject(:+).nil?
-        if card_values.inject(:+) + 10 <= 21
-          actual_value = 11
-        else
-          actual_value = 1
-        end
-      elsif card.value == 0 && card_values.inject(:+).nil?
-        actual_value = 11
+      card_values << card.value
+    end
+    hand_total = card_values.inject(:+)
+    aces = card_values.select { |value| value == 0 }
+    ace_value = 0
+    aces.each do |ace|
+      if hand_total + 10 <= 21
+        ace_value = 11
       else
-        actual_value = card.value
+        ace_value = 1
       end
-      card_values << actual_value
+      ace_to_rewrite = card_values.index(0)
+      card_values[ace_to_rewrite] = ace_value
     end
     card_values.inject(:+)
   end
