@@ -58,8 +58,8 @@ module Hand
     hand_total = card_values.inject(:+)
     aces = card_values.select { |value| value == 0 }
     ace_value = 0
-    aces.each do |ace|
-      if hand_total + 10 <= 21
+    aces.each do
+      if hand_total + 10 < 21
         ace_value = 11
       else
         ace_value = 1
@@ -85,22 +85,19 @@ class Player
   end
 
   def show_cards
-    current_cards = []
-    cards.each do |card|
-      current_cards << "#{card.face} of #{card.suit}"
-    end
-    current_cards.join(', ')
+    cards.map(&:to_s).join(', ')
+  end
+
+  def give_card(deck)
+    cards << deck
   end
 end
 
 class Human < Player
-  def show_hand
-    cards.join(', ')
-  end
 end
 
 class Dealer < Player
-  def show_hand
+  def show_cards
     hand = [cards[0]]
     cards_to_hide = cards.drop(1)
     cards_to_hide.each do
@@ -153,6 +150,7 @@ class TwentyOne
       reset
       return true
     end
+    false
   end
 
   def reset
@@ -171,7 +169,7 @@ class TwentyOne
 
   def hit(participant)
     puts "Hitting this round"
-    participant.cards << deck.deal
+    participant.give_card(deck.deal)
     add_turn(participant, 'hit')
   end
 
@@ -194,7 +192,7 @@ class TwentyOne
   end
 
   def show_cards
-    puts "Cards in your hand: #{human.show_hand} (#{human.total_value})"
+    puts "Cards in your hand: #{human.show_cards} (#{human.total_value})"
   end
 
   def player_turn
@@ -213,7 +211,7 @@ class TwentyOne
   def dealer_turn
     if dealer.total_value < 17
       hit(dealer)
-      puts "Dealer's hand: #{dealer.show_hand}."
+      puts "Dealer's hand: #{dealer.show_cards}."
     else
       stay(dealer)
     end
