@@ -97,6 +97,14 @@ class TodoList
   def find_by_title(string)
     todos.select { |todo| todo.title == string }
   end
+
+  def all_done
+    todos.select { |todo| todo.done? }
+  end
+
+  def all_not_done
+    todos.select { |todo| !todo.done? }
+  end
 end
 
 # given
@@ -158,7 +166,7 @@ list.pop                        # removes and returns the last item in list
 
 # remove_at
 #list.remove_at                  # raises ArgumentError
-list.remove_at(1)               # removes and returns the 2nd item
+#list.remove_at(1)               # removes and returns the 2nd item
 list.remove_at(100)             # raises IndexError
 
 # ---- Outputting the list -----
@@ -167,6 +175,7 @@ list.remove_at(100)             # raises IndexError
 list.to_s                      # returns string representation of the list
 
 list.mark_done_at(1)
+list.mark_done_at(0)
 
 puts "---"
 
@@ -176,7 +185,9 @@ end
 
 results = list.select { |todo| todo.done? }
 
-p list.find_by_title("Learn to program")
+list.find_by_title("Learn to program")
+p list.all_done
+p list.all_not_done
 
 # ---- Today's Todos ----
 # [ ] Buy milk
