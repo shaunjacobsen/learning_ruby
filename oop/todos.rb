@@ -95,7 +95,7 @@ class TodoList
   end
 
   def find_by_title(string)
-    todos.select { |todo| todo.title == string }
+    todos.select { |todo| todo.title == string }.first
   end
 
   def all_done
@@ -104,6 +104,10 @@ class TodoList
 
   def all_not_done
     todos.select { |todo| !todo.done? }
+  end
+
+  def mark_done(string)
+    find_by_title(string) && find_by_title(string).done!
   end
 end
 
@@ -186,8 +190,9 @@ end
 results = list.select { |todo| todo.done? }
 
 list.find_by_title("Learn to program")
-p list.all_done
-p list.all_not_done
+list.all_done
+list.all_not_done
+p list.mark_done("Learn to program")
 
 # ---- Today's Todos ----
 # [ ] Buy milk
