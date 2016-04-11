@@ -83,10 +83,15 @@ class TodoList
     todos.each do |todo|
       yield(todo)
     end
+    self
   end
 
   def select
-    todos.select { |todo| yield(todo) }
+    list = TodoList.new(title)
+    each do |todo|
+      list.add(todo) if yield(todo)
+    end
+    list
   end
 end
 
