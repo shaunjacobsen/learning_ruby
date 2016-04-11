@@ -93,6 +93,10 @@ class TodoList
     end
     list
   end
+
+  def find_by_title(string)
+    todos.select { |todo| todo.title == string }
+  end
 end
 
 # given
@@ -172,7 +176,7 @@ end
 
 results = list.select { |todo| todo.done? }
 
-puts results.inspect
+p list.find_by_title("Learn to program")
 
 # ---- Today's Todos ----
 # [ ] Buy milk
