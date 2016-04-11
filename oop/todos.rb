@@ -78,6 +78,16 @@ class TodoList
   def to_s
     todos.each { |todo| puts "#{todo}" }
   end
+
+  def each
+    todos.each do |todo|
+      yield(todo)
+    end
+  end
+
+  def select
+    todos.select { |todo| yield(todo) }
+  end
 end
 
 # given
@@ -149,7 +159,15 @@ list.to_s                      # returns string representation of the list
 
 list.mark_done_at(1)
 
-list.to_s
+puts "---"
+
+list.each do |todo|
+  puts todo
+end
+
+results = list.select { |todo| todo.done? }
+
+puts results.inspect
 
 # ---- Today's Todos ----
 # [ ] Buy milk
