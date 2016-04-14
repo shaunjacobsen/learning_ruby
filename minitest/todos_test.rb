@@ -2,7 +2,35 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 Minitest::Reporters.use!
 
+require 'simplecov'
+SimpleCov.start
+
 require_relative 'todos'
+
+class TodoTest < Minitest::Test
+  def setup
+    @todo1 = Todo.new("Grocery shopping", "Milk, bread, cheese")
+  end
+
+  def test_initialize
+    assert_equal(false, @todo1.done?)
+    assert_equal("Grocery shopping", @todo1.title)
+    assert_equal("Milk, bread, cheese", @todo1.description)
+  end
+
+  def test_undone!
+    @todo1.done!
+    assert_equal(true, @todo1.done?)
+    @todo1.undone!
+    assert_equal(false, @todo1.done?)
+  end
+
+  def test_to_s
+    todo1_to_s = "[ ] Grocery shopping"
+    assert_equal(todo1_to_s, @todo1.to_s)
+  end
+
+end
 
 class TodoListTest < Minitest::Test
 
