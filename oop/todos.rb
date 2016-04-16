@@ -78,6 +78,49 @@ class TodoList
   def to_s
     todos.each { |todo| puts "#{todo}" }
   end
+
+  def each
+    todos.each do |todo|
+      yield(todo)
+    end
+    self
+  end
+
+  def select
+    list = TodoList.new(title)
+    each do |todo|
+      list.add(todo) if yield(todo)
+    end
+    list
+  end
+
+  def find_by_title(string)
+    todos.select { |todo| todo.title == string }.first
+  end
+
+  def all_done
+    todos.select { |todo| todo.done? }
+  end
+
+  def all_not_done
+    todos.select { |todo| !todo.done? }
+  end
+
+  def mark_done(string)
+    find_by_title(string) && find_by_title(string).done!
+  end
+
+  def mark_all_done
+    each do |todo|
+      todo.done!
+    end
+  end
+
+  def mark_all_undone
+    each do |todo|
+      todo.undone!
+    end
+  end
 end
 
 # given
@@ -139,7 +182,7 @@ list.pop                        # removes and returns the last item in list
 
 # remove_at
 #list.remove_at                  # raises ArgumentError
-list.remove_at(1)               # removes and returns the 2nd item
+#list.remove_at(1)               # removes and returns the 2nd item
 list.remove_at(100)             # raises IndexError
 
 # ---- Outputting the list -----
@@ -148,7 +191,22 @@ list.remove_at(100)             # raises IndexError
 list.to_s                      # returns string representation of the list
 
 list.mark_done_at(1)
+list.mark_done_at(0)
 
+puts "---"
+
+list.each do |todo|
+  puts todo
+end
+
+results = list.select { |todo| todo.done? }
+
+list.find_by_title("Learn to program")
+list.all_done
+list.all_not_done
+list.mark_all_done
+list.to_s
+list.mark_all_undone
 list.to_s
 
 # ---- Today's Todos ----
