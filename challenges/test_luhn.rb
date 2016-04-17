@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative 'pig_latin'
+require_relative 'luhn'
 require 'minitest/reporters'
 Minitest::Reporters.use!
 
