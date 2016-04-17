@@ -26,7 +26,7 @@ class PigLatin
         translated_phrase << add(word)
       when word.include?('qu')
         letters_around_qu = word.split('qu')
-        new_word = letters_around_qu[1] + letters_around_qu[0] + 'quay'
+        new_word = add((letters_around_qu[1] + letters_around_qu[0]), 'quay')
         translated_phrase << new_word
       when word.start_with?('ye')
         word.slice!(0)
