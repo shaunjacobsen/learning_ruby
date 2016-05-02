@@ -1,5 +1,3 @@
-require 'pry'
-
 class Series
   attr_accessor :series
 
