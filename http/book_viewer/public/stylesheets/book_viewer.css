@@ -205,6 +205,11 @@ small screens.
             margin-top: 0.6em;
         }
 
+.highlight {
+    background-color: #FFFBCC;
+    padding: 0 1px;
+}
+
 
 /* -- Responsive Styles (Media Queries) ------------------------------------- */
 
