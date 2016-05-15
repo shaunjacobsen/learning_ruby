@@ -7,3 +7,11 @@ get "/" do
   @toc = File.readlines("data/toc.txt")
   erb :home
 end
+
+get "/chapters/1" do
+  @title = "Chapter 1"
+  @toc = File.readlines("data/toc.txt")
+  @chapter = File.read("data/chp1.txt")
+
+  erb :chapter
+end
