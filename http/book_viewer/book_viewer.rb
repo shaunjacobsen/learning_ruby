@@ -1,6 +1,8 @@
+require "tilt/erubis"
 require "sinatra"
 require "sinatra/reloader"
 
 get "/" do
-  File.read "public/template.html"
+  @title = "This is the title"
+  erb :home
 end
