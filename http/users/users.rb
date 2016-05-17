@@ -31,6 +31,9 @@ end
 get "/user/:name" do
   @title = params[:name]
   @active_user = @users.select { |k, v| k.to_s == params[:name] }.first
+  if @active_user.nil?
+    redirect "/"
+  end
   @info = @active_user
   @username = @info.first
   @email = @info[1][:email]
