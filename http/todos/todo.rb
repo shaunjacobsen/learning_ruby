@@ -1,5 +1,6 @@
 require "sinatra"
 require "sinatra/reloader"
+require "sinatra/content_for"
 require "tilt/erubis"
 
 # configuration
@@ -25,16 +26,33 @@ get "/lists" do
   erb :lists, layout: :layout
 end
 
+# view a specific list
+get "/lists/:id" do
+  id = params[:id].to_i
+  @list = session[:lists][id]
+  erb :list, layout: :layout
+end
+
+# return an error message if the name is invalid; return nil if name is valid
+def error_for_list_name(name)
+  if session[:lists].any? { |list| list[:name] == name }
+    "The list name must be unique; #{name} already exists."
+  elsif !(1..100).cover? name.size
+    "The list name must be between 1 and 100 characters"
+  end
+end
+
 # creates a new list
 post "/lists" do
   list_name = params[:list_name].strip
-  if (1..100).cover? list_name.size
+  error = error_for_list_name(list_name)
+  if error
+    session[:error] = error
+    erb :new_list, layout: :layout
+  else
     session[:lists] << { name: list_name, todos: [] }
     session[:success] = "The list \"#{list_name}\" has been created."
     redirect "/lists"
-  else
-    session[:error] = "The list name must be between 1 and 100 characters"
-    erb :new_list, layout: :layout
   end
 end
 
