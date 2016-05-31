@@ -84,3 +84,11 @@ post "/lists/:id" do
     redirect "/lists"
   end
 end
+
+# delete an existing to-do list
+post '/lists/:id/destroy' do
+  id = params[:id].to_i
+  session[:lists].delete_at(id)
+  session[:success] = "List has been deleted."
+  redirect "/lists"
+end
