@@ -117,6 +117,7 @@ post '/lists/:list_id/todos' do
   end
 end
 
+# delete a to-do from a to-do list
 post '/lists/:list_id/todos/:id/destroy' do
   @list_id = params[:list_id].to_i
   @list = session[:lists][@list_id]
@@ -126,3 +127,16 @@ post '/lists/:list_id/todos/:id/destroy' do
   session[:success] = "The to-do has been deleted."
   redirect "/lists/#{@list_id}"
 end
+
+# mark a to-do completed or not
+post '/lists/:list_id/todos/:id' do
+  @list_id = params[:list_id].to_i
+  @list = session[:lists][@list_id]
+
+  todo_id = params[:id].to_i
+  is_completed = params[:completed] == "true"
+  @list[:todos][todo_id][:completed] = is_completed
+  session[:success] = "The to-do has been updated."
+  redirect "/lists/#{@list_id}"
+end
+

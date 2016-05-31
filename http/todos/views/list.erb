@@ -10,12 +10,22 @@
 
   <ul>
     <% @list[:todos].each_with_index do |todo, index| %>
-      <li>
-        <h3><%= todo[:name] %></h3>
-        <form action="/lists/<%= @list_id %>/todos/<%= index %>/destroy" method="post" class="delete">
-          <button type="submit">Delete</button>
-        </form>
-      </li>
+      <% if todo[:completed] %>
+        <li class="complete">
+      <% else %>
+        <li>
+      <% end %>
+
+          <form action="/lists/<%= @list_id %>/todos/<%= index %>" method="post" class="check">
+            <input type="hidden" name="completed" value="<%= !todo[:completed] %>" />
+            <button type="submit">Complete</button>
+          </form>
+
+          <h3><%= todo[:name] %></h3>
+          <form action="/lists/<%= @list_id %>/todos/<%= index %>/destroy" method="post" class="delete">
+            <button type="submit">Delete</button>
+          </form>
+        </li>
     <% end %>
   </ul>
 </section>
@@ -35,5 +45,5 @@
 </form>
 
 <% content_for :header_links do %>
-<a href="/lists">All Lists</a>
+<a class="list" href="/lists">All Lists</a>
 <% end %>
