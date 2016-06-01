@@ -32,6 +32,29 @@ helpers do
   def todos_remaining_count(list)
     list[:todos].select { |todo| !todo[:completed] }.size
   end
+
+  def sort_lists(lists, &block)
+    complete_lists, incomplete_lists = lists.partition { |list| list_complete?(list) }
+
+    incomplete_lists.each { |list| yield list, lists.index(list) }
+    complete_lists.each { |list| yield list, lists.index(list) }
+  end
+
+  def sort_todos(todos, &block)
+    incomplete_todos = {}
+    complete_todos = {}
+
+    todos.each_with_index do |todo, index|
+      if todo[:completed]
+        complete_todos[todo] = index
+      else
+        incomplete_todos[todo] = index
+      end
+    end
+
+    incomplete_todos.each(&block)
+    complete_todos.each(&block)
+  end
 end
 
 # routes
@@ -42,8 +65,13 @@ end
 
 # view all lists
 get "/lists" do
-  @lists = session[:lists]
+  @lists = session[:lists].sort_by { |list| list_complete?(list) ? 1 : 0 }
   erb :lists, layout: :layout
+end
+
+# renders new list form
+get "/lists/new" do
+  erb :new_list, layout: :layout
 end
 
 # view a specific list
@@ -74,11 +102,6 @@ post "/lists" do
     session[:success] = "The list \"#{list_name}\" has been created."
     redirect "/lists"
   end
-end
-
-# renders new list form
-get "/lists/new" do
-  erb :new_list, layout: :layout
 end
 
 # edit an existing to-do list
