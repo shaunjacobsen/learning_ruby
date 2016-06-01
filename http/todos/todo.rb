@@ -14,6 +14,26 @@ before do
   session[:lists] ||= []
 end
 
+# helpers
+
+helpers do
+  def list_complete?(list)
+    todos_count(list) > 0 && todos_remaining_count(list) == 0
+  end
+
+  def list_class(list)
+    "complete" if list_complete?(list)
+  end
+
+  def todos_count(list)
+    list[:todos].size
+  end
+
+  def todos_remaining_count(list)
+    list[:todos].select { |todo| !todo[:completed] }.size
+  end
+end
+
 # routes
 
 get "/" do
@@ -138,5 +158,18 @@ post '/lists/:list_id/todos/:id' do
   @list[:todos][todo_id][:completed] = is_completed
   session[:success] = "The to-do has been updated."
   redirect "/lists/#{@list_id}"
+end
+
+# mark all to-dos in a list completed
+post '/lists/:id/complete_all' do
+  @list_id = params[:id].to_i
+  @list = session[:lists][@list_id]
+
+  @list[:todos].each do |todo|
+    todo[:completed] = true
+  end
+
+  session[:success] = "All to-dos marked completed!"
+  redirect "lists/#{@list_id}"
 end
 
