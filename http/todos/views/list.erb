@@ -21,7 +21,7 @@
         <li>
       <% end %>
 
-          <form action="/lists/<%= @list_id %>/todos/<%= index %>" method="post" class="check">
+          <form action="/lists/<%= @list_id %>/todos/<%= todo[:id] %>" method="post" class="check">
             <input type="hidden" name="completed" value="<%= !todo[:completed] %>" />
             <button type="submit">Complete</button>
           </form>
