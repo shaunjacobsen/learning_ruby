@@ -33,6 +33,11 @@ end
 get "/read/:filename" do
   content_type :text
   filename = params[:filename]
-  file = File.open("data/#{filename}").read
-  return file
+  path = "data/#{filename}"
+  if File.exist?(path)
+    File.read(path)
+  else
+    session[:error] = "#{filename} does not exist."
+    redirect "/"
+  end
 end

@@ -28,4 +28,14 @@ class AppTest < Minitest::Test
     assert_equal "text/plain;charset=utf-8", last_response["Content-Type"]
     assert_includes last_response.body, "2014 - Ruby 2.2 released."
   end
+
+  def test_nonexistent_document
+    get "/read/nothing.txt"
+
+    assert_equal 302, last_response.status
+    get last_response["Location"]
+
+    assert_equal 200, last_response.status
+    assert_includes last_response.body, "nothing.txt does not exist"
+  end
 end
