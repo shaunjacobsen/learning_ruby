@@ -33,7 +33,6 @@ end
 get "/read/:filename" do
   content_type :text
   filename = params[:filename]
-  file = File.open("data/#{filename}")
-  @parsed_file = file.read
-  return @parsed_file
+  file = File.open("data/#{filename}").read
+  return file
 end
