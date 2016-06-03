@@ -17,8 +17,23 @@ before do
   end
 end
 
+helpers do
+  def paragraphify(text)
+    text.gsub("\n", "<br />")
+  end
+
+end
+
 # routes
 
 get "/" do
-  erb :main, layout: :layout
+  erb :index, layout: :layout
+end
+
+get "/read/:filename" do
+  content_type :text
+  filename = params[:filename]
+  file = File.open("data/#{filename}")
+  @parsed_file = file.read
+  return @parsed_file
 end
