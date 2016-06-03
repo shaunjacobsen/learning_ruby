@@ -38,7 +38,7 @@ helpers do
   end
 
   def sort_todos(todos, &block)
-    complete_todos, incomplete_todos = todos.partition { |todo| todo[:completed] }
+    complete_todos, incomplete_todos = todos.partition { |list| list_complete?(list) }
 
     incomplete_todos.each(&block)
     complete_todos.each(&block)
