@@ -35,6 +35,14 @@ helpers do
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
     markdown.render(text)
   end
+
+  def filename_taken?(filename)
+    @files.include? filename
+  end
+
+  def valid_filename?(filename)
+    filename.strip.length > 0 && !filename_taken?(filename)
+  end
 end
 
 # routes
@@ -66,7 +74,6 @@ get "/edit/:file" do
   filepath = data_path("data/#{@filename}")
   @contents = File.read(filepath)
   erb :edit, layout: :layout
-
 end
 
 post "/edit/:file" do
@@ -84,3 +91,17 @@ post "/edit/:file" do
   end
 end
 
+get "/new" do
+  erb :new, layout: :layout
+end
+
+post "/new" do
+  filename = params[:filename]
+  if valid_filename?(filename)
+    f = File.new("data/#{filename}", "w")
+    redirect "/"
+  else
+    session[:error] = "#{filename} is not a valid filename."
+    redirect "/new"
+  end
+end
