@@ -1,3 +1,18 @@
+html {
+  padding: 25px;
+}
+
 body {
   font-family: 'Source Sans Pro', sans-serif;
+}
+
+.error {
+  color: white;
+  background-color: rgb(255, 153, 153);
+  padding: 5px;
+}
+
+.message {
+  background-color: rgb(255, 255, 153);
+  padding: 5px;
 }

@@ -10,10 +10,10 @@
   <body>
     <header>
       <% if session[:error] %>
-        <p><%= session.delete(:error) %></p>
+        <span class="error"><%= session.delete(:error) %></span>
       <% end %>
       <% if session[:messages] %>
-        <p><%= session.delete(:messages) %></p>
+        <span class="message"><%= session.delete(:messages) %></span>
       <% end %>
     </header>
     <main>

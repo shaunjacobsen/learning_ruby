@@ -18,6 +18,14 @@ before do
   end
 end
 
+def data_path(path)
+  if ENV["RACK_ENV"] == "test"
+    "test/#{path}"
+  else
+    path
+  end
+end
+
 helpers do
   def paragraphify(text)
     text.gsub("\n", "<br />")
@@ -38,7 +46,7 @@ end
 get "/read/*.*" do |path, ext|
   filename = path
   filetype = ext
-  filepath = "data/#{filename}.#{filetype}"
+  filepath = data_path("data/#{filename}.#{filetype}")
   if File.exist?(filepath)
     case filetype
     when 'txt'
@@ -55,7 +63,7 @@ end
 
 get "/edit/:file" do
   @filename = params[:file]
-  filepath = "data/#{@filename}"
+  filepath = data_path("data/#{@filename}")
   @contents = File.read(filepath)
   erb :edit, layout: :layout
 
@@ -63,7 +71,7 @@ end
 
 post "/edit/:file" do
   filename = params[:file]
-  filepath = "data/#{filename}"
+  filepath = data_path("data/#{filename}")
   new_contents = params[:contents]
   rewrite_file = File.open(filepath, "w") do |file|
     file.write new_contents
