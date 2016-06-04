@@ -27,7 +27,6 @@ helpers do
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
     markdown.render(text)
   end
-
 end
 
 # routes
@@ -44,7 +43,7 @@ get "/read/*.*" do |path, ext|
     case filetype
     when 'txt'
       content_type :text
-      File.read(filepath)
+      @parsed_file = File.read(filepath)
     when 'md'
       render_markdown(File.read(filepath))
     end
@@ -53,3 +52,27 @@ get "/read/*.*" do |path, ext|
     redirect "/"
   end
 end
+
+get "/edit/:file" do
+  @filename = params[:file]
+  filepath = "data/#{@filename}"
+  @contents = File.read(filepath)
+  erb :edit, layout: :layout
+
+end
+
+post "/edit/:file" do
+  filename = params[:file]
+  filepath = "data/#{filename}"
+  new_contents = params[:contents]
+  rewrite_file = File.open(filepath, "w") do |file|
+    file.write new_contents
+  end
+  if rewrite_file
+    session[:messages] = "#{filename} updated."
+    redirect "/"
+  else
+    session[:error] = "There was an error updating #{filename}."
+  end
+end
+

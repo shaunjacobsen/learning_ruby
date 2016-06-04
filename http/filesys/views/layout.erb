@@ -8,6 +8,14 @@
     <script src="/js/jquery-2.2.4.js"></script>
   </head>
   <body>
+    <header>
+      <% if session[:error] %>
+        <p><%= session.delete(:error) %></p>
+      <% end %>
+      <% if session[:messages] %>
+        <p><%= session.delete(:messages) %></p>
+      <% end %>
+    </header>
     <main>
       <%== yield %>
     </main>
