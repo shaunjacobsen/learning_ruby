@@ -61,4 +61,16 @@ class AppTest < Minitest::Test
     assert_equal 200, last_response.status
     assert_includes last_response.body, "I changed it"
   end
+
+  def test_deleting_file
+    post "/delete/changes.txt"
+
+    assert_equal 302, last_response.status
+
+    get last_response["Location"]
+    assert_includes last_response.body, "changes.txt has been deleted"
+
+    get "/"
+    refute_includes last_response.body, "changes.txt"
+  end
 end

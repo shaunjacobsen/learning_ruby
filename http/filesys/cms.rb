@@ -109,3 +109,13 @@ post "/new" do
     redirect "/new"
   end
 end
+
+post "/delete/:filename" do
+  filename = params[:filename]
+  filepath = data_path("data/#{filename}")
+  File.delete(filepath)
+  session[:messages] = "#{filename} has been deleted."
+  redirect "/"
+end
+
+
