@@ -36,12 +36,16 @@ helpers do
     markdown.render(text)
   end
 
+  def valid_filetype?(filename)
+    %w(txt md).include? filename.split(".").last
+  end
+
   def filename_taken?(filename)
     @files.include? filename
   end
 
   def valid_filename?(filename)
-    filename.strip.length > 0 && !filename_taken?(filename)
+    filename.strip.length > 0 && !filename_taken?(filename) && valid_filetype?(filename)
   end
 end
 
