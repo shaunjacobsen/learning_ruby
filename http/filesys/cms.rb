@@ -4,6 +4,7 @@ require "sinatra/content_for"
 require "tilt/erubis"
 require "redcarpet"
 require "yaml"
+require "bcrypt"
 
 # configuration
 
@@ -31,7 +32,7 @@ def load_user_list
   user_list = YAML.load(File.open('users.yml'))
   users_array = []
   user_list.each do |k, v|
-    users_array << [k, v]
+    users_array << [k, BCrypt::Password.new(v)]
   end
   users_array
 end
