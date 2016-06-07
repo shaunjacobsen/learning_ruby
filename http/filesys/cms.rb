@@ -18,11 +18,11 @@ before do
   end
 end
 
-def data_path(path)
+def data_path
   if ENV["RACK_ENV"] == "test"
-    "test/#{path}"
+    File.expand_path("../tests/data", __FILE__)
   else
-    path
+    File.expand_path("../data", __FILE__)
   end
 end
 
@@ -58,12 +58,12 @@ end
 get "/read/*.*" do |path, ext|
   filename = path
   filetype = ext
-  filepath = data_path("data/#{filename}.#{filetype}")
+  filepath = File.join(data_path,"#{filename}.#{filetype}")
   if File.exist?(filepath)
     case filetype
     when 'txt'
       content_type :text
-      @parsed_file = File.read(filepath)
+      File.read(filepath)
     when 'md'
       render_markdown(File.read(filepath))
     end
@@ -75,14 +75,14 @@ end
 
 get "/edit/:file" do
   @filename = params[:file]
-  filepath = data_path("data/#{@filename}")
+  filepath = File.join(data_path,@filename)
   @contents = File.read(filepath)
   erb :edit, layout: :layout
 end
 
 post "/edit/:file" do
   filename = params[:file]
-  filepath = data_path("data/#{filename}")
+  filepath = File.join(data_path,filename)
   new_contents = params[:contents]
   rewrite_file = File.open(filepath, "w") do |file|
     file.write new_contents
@@ -112,10 +112,34 @@ end
 
 post "/delete/:filename" do
   filename = params[:filename]
-  filepath = data_path("data/#{filename}")
+  filepath = File.join(data_path,filename)
   File.delete(filepath)
   session[:messages] = "#{filename} has been deleted."
   redirect "/"
 end
 
+get "/login" do
+  @username = session[:attempted_username]
+  erb :login, layout: :layout
+end
+
+post "/login" do
+  credentials = [params[:username], params[:password]]
+  if credentials != ["admin", "secret"]
+    session[:error] = "Invalid Credentials"
+    session[:attempted_username] = params[:username]
+    redirect "/login"
+  else
+    session[:user] = params[:username]
+    session[:messages] = "Welcome!"
+    redirect "/"
+  end
+end
+
+get "/logout" do
+  session.delete(:user)
+  session.delete(:attempted_username)
+  session[:messages] = "You have been logged out."
+  redirect "/"
+end
 

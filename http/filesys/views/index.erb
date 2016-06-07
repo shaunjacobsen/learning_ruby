@@ -12,3 +12,11 @@
 <div>
   <a href="/new">New Document</a>
 </div>
+
+<div>
+  <% if session[:user] %>
+    Signed in as <%= session[:user] %>. <a href="/logout">Sign Out</a>
+  <% else %>
+    <a href="/login">Log In</a>
+  <% end %>
+</div>
