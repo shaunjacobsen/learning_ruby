@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <title>Water Quality Tracker</title>
+    <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/application.css">
+    <script src="/js/jquery-2.2.4.js"></script>
+  </head>
+  <body>
+    <header>
+      <% if session[:error] %>
+        <span class="error"><%= session.delete(:error) %></span>
+      <% end %>
+      <% if session[:messages] %>
+        <span class="message"><%= session.delete(:messages) %></span>
+      <% end %>
+    </header>
+    <main>
+      <%== yield %>
+    </main>
+  </body>
+</html>
