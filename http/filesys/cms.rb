@@ -3,6 +3,7 @@ require "sinatra/reloader" if development?
 require "sinatra/content_for"
 require "tilt/erubis"
 require "redcarpet"
+require "yaml"
 
 # configuration
 
@@ -24,6 +25,15 @@ def data_path
   else
     File.expand_path("../data", __FILE__)
   end
+end
+
+def load_user_list
+  user_list = YAML.load(File.open('users.yml'))
+  users_array = []
+  user_list.each do |k, v|
+    users_array << [k, v]
+  end
+  users_array
 end
 
 def signed_in?
@@ -141,14 +151,14 @@ end
 
 post "/login" do
   credentials = [params[:username], params[:password]]
-  if credentials != ["admin", "secret"]
-    session[:error] = "Invalid Credentials"
-    session[:attempted_username] = params[:username]
-    redirect "/login"
-  else
+  if load_user_list.include? credentials
     session[:user] = params[:username]
     session[:messages] = "Welcome!"
     redirect "/"
+  else
+    session[:error] = "Invalid Credentials"
+    session[:attempted_username] = params[:username]
+    redirect "/login"
   end
 end
 

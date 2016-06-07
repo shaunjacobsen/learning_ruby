@@ -32,7 +32,7 @@ class AppTest < Minitest::Test
   end
 
   def admin_session
-    { "rack.session" => { username: "admin" } }
+    { "rack.session" => { username: "shaun" } }
   end
 
   def test_index
@@ -122,13 +122,13 @@ class AppTest < Minitest::Test
   end
 
   def test_login
-    post "/login", username: "admin", password: "secret"
+    post "/login", username: "shaun", password: "mypass"
     assert_equal 302, last_response.status
 
     assert_equal "Welcome!", session[:messages]
 
     get last_response["Location"]
-    assert_equal "admin", session[:user]
+    assert_equal "shaun", session[:user]
   end
 
   def test_incorrect_login
@@ -142,7 +142,7 @@ class AppTest < Minitest::Test
   end
 
   def test_logout
-    post "/login", username: "admin", password: "secret"
+    post "/login", username: "shaun", password: "mypass"
     get last_response["Location"]
     assert_includes last_response.body, "Welcome"
 
