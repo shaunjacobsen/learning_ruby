@@ -26,6 +26,17 @@ def data_path
   end
 end
 
+def signed_in?
+  session[:user].nil?
+end
+
+def redirect_to_login?
+  if signed_in?
+    session[:error] = "You must be signed in to do that."
+    redirect "/"
+  end
+end
+
 helpers do
   def paragraphify(text)
     text.gsub("\n", "<br />")
@@ -74,6 +85,7 @@ get "/read/*.*" do |path, ext|
 end
 
 get "/edit/:file" do
+  redirect_to_login?
   @filename = params[:file]
   filepath = File.join(data_path,@filename)
   @contents = File.read(filepath)
@@ -81,6 +93,7 @@ get "/edit/:file" do
 end
 
 post "/edit/:file" do
+  redirect_to_login?
   filename = params[:file]
   filepath = File.join(data_path,filename)
   new_contents = params[:contents]
@@ -96,10 +109,12 @@ post "/edit/:file" do
 end
 
 get "/new" do
+  redirect_to_login?
   erb :new, layout: :layout
 end
 
 post "/new" do
+  redirect_to_login?
   filename = params[:filename]
   if valid_filename?(filename)
     f = File.new("data/#{filename}", "w")
@@ -111,6 +126,7 @@ post "/new" do
 end
 
 post "/delete/:filename" do
+  redirect_to_login?
   filename = params[:filename]
   filepath = File.join(data_path,filename)
   File.delete(filepath)

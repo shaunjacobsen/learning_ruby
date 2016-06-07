@@ -27,11 +27,19 @@ class AppTest < Minitest::Test
     end
   end
 
+  def session
+    last_request.env["rack.session"]
+  end
+
+  def admin_session
+    { "rack.session" => { username: "admin" } }
+  end
+
   def test_index
     create_document("about.md")
     create_document("changes.txt")
 
-    get "/"
+    get "/", {}, admin_session
     assert_equal 200, last_response.status
     assert_equal "text/html;charset=utf-8", last_response["Content-Type"]
     assert_includes last_response.body, "about.md"
@@ -50,10 +58,7 @@ class AppTest < Minitest::Test
     get "/read/nothing.txt"
 
     assert_equal 302, last_response.status
-    get last_response["Location"]
-
-    assert_equal 200, last_response.status
-    assert_includes last_response.body, "nothing.txt does not exist"
+    assert_equal "nothing.txt does not exist.", session[:error]
   end
 
   def test_markdown_file
@@ -69,13 +74,22 @@ class AppTest < Minitest::Test
 
     assert_equal 302, last_response.status
 
+    assert_equal "changes.txt updated.", session[:messages]
+
     get last_response["Location"]
 
-    assert_includes last_response.body, "changes.txt updated"
-
-    get "/read/changes.txt"
+    get "/read/changes.txt", {}, admin_session
     assert_equal 200, last_response.status
     assert_includes last_response.body, "I changed it"
+  end
+
+  def test_updating_file_if_logged_out
+    create_document("changes.txt")
+    post "/edit/changes.txt", contents: "I changed it"
+
+    assert_equal 302, last_response.status
+
+    assert_equal "You must be signed in to do that.", session[:error]
   end
 
   def test_deleting_file
@@ -83,12 +97,20 @@ class AppTest < Minitest::Test
     post "/delete/test.txt"
 
     assert_equal 302, last_response.status
+    assert_equal "test.txt has been deleted.", session[:messages]
 
     get last_response["Location"]
-    assert_includes last_response.body, "test.txt has been deleted"
 
-    get "/"
+    get "/", {}, admin_session
     refute_includes last_response.body, "test.txt"
+  end
+
+  def test_deleting_file_if_logged_out
+    create_document("test.txt")
+    post "/delete/test.txt"
+
+    assert_equal 302, last_response.status
+    assert_equal "You must be signed in to do that.", session[:error]
   end
 
   def test_login_form
@@ -103,9 +125,10 @@ class AppTest < Minitest::Test
     post "/login", username: "admin", password: "secret"
     assert_equal 302, last_response.status
 
+    assert_equal "Welcome!", session[:messages]
+
     get last_response["Location"]
-    assert_includes last_response.body, "Welcome!"
-    assert_includes last_response.body, "Signed in as admin"
+    assert_equal "admin", session[:user]
   end
 
   def test_incorrect_login
@@ -115,6 +138,7 @@ class AppTest < Minitest::Test
     get last_response["Location"]
 
     assert_includes last_response.body, "Invalid Credentials"
+    assert_equal nil, session[:user]
   end
 
   def test_logout
@@ -126,5 +150,6 @@ class AppTest < Minitest::Test
     get last_response["Location"]
 
     assert_includes last_response.body, "You have been logged out"
+    assert_equal nil, session[:user]
   end
 end
