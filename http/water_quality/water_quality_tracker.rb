@@ -12,6 +12,7 @@ end
 
 before do
   @tracking_data = YAML.load(File.open('data.yml'))
+  @tracking_data = @tracking_data.sort.to_h
 end
 
 helpers do
@@ -73,10 +74,38 @@ post "/entry/new" do
   redirect "/"
 end
 
+get "/entry/edit/:id" do
+  @id = params[:id].to_i
+  if @tracking_data.has_key?(@id)
+    @selected_data = @tracking_data.fetch(@id)
+  else
+    session[:error] = "Cannot find data."
+  end
+  erb :edit, layout: :layout
+end
+
+post "/entry/edit" do
+  data = {
+    params[:id].to_i => {
+      "date" => Time.parse(params[:date]),
+      "pH" => params[:pH],
+      "temp" => params[:temp],
+      "ammonia" => params[:ammonia],
+      "nitrites" => params[:nitrites],
+      "nitrates" => params[:nitrates],
+      "notes" => params[:notes]
+    }
+  }
+  remove_edited_entry = @tracking_data.reject { |k, _| k == params[:id] }
+  combined_data = remove_edited_entry.merge(data)
+  File.write('data.yml', combined_data.to_yaml)
+  redirect "/entry/#{params[:id]}"
+end
+
 get "/entry/:id" do
-  id = params[:id].to_i
-  if @tracking_data.has_key?(id)
-    @selected_data = @tracking_data.fetch(id)
+  @id = params[:id].to_i
+  if @tracking_data.has_key?(@id)
+    @selected_data = @tracking_data.fetch(@id)
   else
     session[:error] = "Cannot find data."
   end

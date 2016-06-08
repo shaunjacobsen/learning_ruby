@@ -7,3 +7,19 @@
   nitrites: '3'
   nitrates: '3'
   notes: '3'
+4:
+  date: 2016-06-07 20:35:07.000000000 -05:00
+  pH: '5'
+  temp: '5'
+  ammonia: '5'
+  nitrites: '8'
+  nitrates: '5'
+  notes: None
+5:
+  date: 2016-06-07 20:36:10.000000000 -05:00
+  pH: '1'
+  temp: '7'
+  ammonia: '7'
+  nitrites: '7'
+  nitrates: '7'
+  notes: No notes

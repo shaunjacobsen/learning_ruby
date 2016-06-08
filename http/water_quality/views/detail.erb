@@ -34,4 +34,8 @@
   <div>
     <p><small>Recorded at <%= parse_time_from_date(@selected_data['date']) %> on <%= parse_date_day_month_year(@selected_data['date']) %></small></p>
   </div>
+
+  <div>
+    <p><a href="/entry/edit/<%= @id %>">Edit entry</a></p>
+  </div>
 </div>
