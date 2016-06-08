@@ -16,12 +16,28 @@ end
 
 helpers do
   def parse_date_day_month_year(date)
-    date.strftime('%-d %B %Y')
+    date.strftime("%-d %B %Y")
   end
 
   def parse_time_from_date(date)
-    date.strftime('%H:%M')
+    date.strftime("%H:%M")
   end
+end
+
+def is_valid_pH?(pH)
+  pH > 0 && pH <= 9
+end
+
+def is_valid_ppm?(ppm_figure)
+  ppm_figure >= 0 && ppm_figure < 10
+end
+
+def is_valid_temp?(temperature)
+  temperature > 0 && temperature < 100
+end
+
+def valid_entry?(pH, ppm, temp)
+  is_valid_pH?(pH) && is_valid_ppm?(ppm) && is_valid_temp?(temp)
 end
 
 get "/" do
@@ -42,17 +58,19 @@ end
 
 post "/entry/new" do
   data = {
-    @next_id => {
-      'date' => params[:date]
-      'pH' => params[:pH]
-      'temp' => params[:temp]
-      'ammonia' => params[:ammonia]
-      'nitrites' => params[:nitrites]
-      'nitrates' => params[:nitrates]
-      'notes' => params[:notes]
+    params[:new_id].to_i => {
+      "date" => Time.parse(params[:date]),
+      "pH" => params[:pH],
+      "temp" => params[:temp],
+      "ammonia" => params[:ammonia],
+      "nitrites" => params[:nitrites],
+      "nitrates" => params[:nitrates],
+      "notes" => params[:notes]
     }
   }
-  File.open('data.yml', 'w') { |f| f.write(data.to_yaml) }
+  combined_data = @tracking_data.merge(data)
+  File.write('data.yml', combined_data.to_yaml)
+  redirect "/"
 end
 
 get "/entry/:id" do
