@@ -1,0 +1,38 @@
+<h2>New Log Entry <span class="light">for <%= parse_date_day_month_year(@today) %> at <%= parse_time_from_date(@today) %></span></h2>
+
+<form action="/entry/new" method="post" class="new">
+  <input type="hidden" name="date" value="<%= Time.now %>">
+  <input type="hidden" name="new_id" value="<%= @next_id %>">
+  <table>
+    <tr>
+      <td><label for="pH">pH</label></td>
+      <td><input type="text" name="pH"></td>
+    </tr>
+    <tr>
+      <td><label for="ammonia">ammonia</label></td>
+      <td><input type="text" name="ammonia"><small>PPM</small></td>
+    </tr>
+    <tr>
+      <td><label for="nitrites">nitrites</label></td>
+      <td><input type="text" name="nitrites"><small>PPM</small></td>
+    </tr>
+    <tr>
+      <td><label for="nitrates">nitrates</label></td>
+      <td><input type="text" name="nitrates"><small>PPM</small></td>
+    </tr>
+    <tr>
+      <td><label for="temp">temp</label></td>
+      <td><input type="text" name="temp"></td>
+    </tr>
+    <tr>
+      <td><label for="notes">notes</label></td>
+      <td><input type="text" name="notes" class="extend"></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><div class="btn-submit"><input type="submit" value="Go" class="btn-destyle"></div></td>
+    </tr>
+  </table>
+</form>

@@ -1,0 +1,37 @@
+<h2><span class="light">Water Quality for </span><%= parse_date_day_month_year(@selected_data['date']) %></h2>
+
+<div>
+  <div class="figure-box">
+    <span class="metric">pH</span><br />
+    <span class="figure"><%= @selected_data['pH'] %></span>
+  </div>
+
+  <div class="figure-box">
+    <span class="metric">Ammonia</span><br />
+    <span class="figure"><%= @selected_data['ammonia'] %><span class="units">PPM</span></span>
+  </div>
+
+  <div class="figure-box">
+    <span class="metric">Nitrites</span><br />
+    <span class="figure"><%= @selected_data['nitrites'] %><span class="units">PPM</span></span>
+  </div>
+
+  <div class="figure-box">
+    <span class="metric">Nitrates</span><br />
+    <span class="figure"><%= @selected_data['nitrates'] %><span class="units">PPM</span></span>
+  </div>
+
+  <div class="figure-box">
+    <span class="metric">Temp</span><br />
+    <span class="figure"><%= @selected_data['temp'] %>&deg;</span>
+  </div>
+
+  <div>
+  <h3>Notes</h3>
+    <p><%= @selected_data['notes'] %></p>
+  </div>
+
+  <div>
+    <p><small>Recorded at <%= parse_time_from_date(@selected_data['date']) %> on <%= parse_date_day_month_year(@selected_data['date']) %></small></p>
+  </div>
+</div>

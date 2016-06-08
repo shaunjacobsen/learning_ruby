@@ -1,0 +1,17 @@
+---
+1:
+  date: 2016-06-07 18:14:00 +0600
+  pH: 8.2
+  temp: 24
+  ammonia: 0
+  nitrites: 0
+  nitrates: 0
+  notes: "None"
+2:
+  date: 2016-06-08 18:14:00 +0600
+  pH: 8.0
+  temp: 24.6
+  ammonia: 0
+  nitrites: 5
+  nitrates: 0
+  notes: "None"

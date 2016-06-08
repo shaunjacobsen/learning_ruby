@@ -1,1 +1,9 @@
 <h1>Water Quality Tracker</h1>
+
+<p><a href="/entry/new">New Entry</a></p>
+
+<ul>
+  <% @tracking_data.each do |k, v| %>
+  <li><a href="/entry/<%= k %>"><%= parse_date_day_month_year(v['date']) %></a></li>
+  <% end %>
+</ul>
