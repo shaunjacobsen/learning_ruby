@@ -3,6 +3,8 @@ require "sinatra/reloader" if development?
 require "sinatra/content_for"
 require "tilt/erubis"
 require "yaml"
+require "csv"
+require "json"
 
 configure do
   enable :sessions
@@ -25,6 +27,23 @@ helpers do
   end
 end
 
+def compare_with_previous(figure, current_id)
+  current_data = @tracking_data[current_id]
+  previous_id = current_id.to_i - 1
+  previous_data = @tracking_data[previous_id]
+  if previous_data
+    comparison = current_data[figure].to_f - previous_data[figure].to_f
+    if comparison > 0
+      "fa-arrow-up"
+    elsif comparison < 0
+      "fa-arrow-down"
+    else
+      ""
+    end
+  end
+
+end
+
 def is_valid_pH?(pH)
   pH > 0 && pH <= 9
 end
@@ -39,6 +58,18 @@ end
 
 def valid_entry?(pH, ppm, temp)
   is_valid_pH?(pH) && is_valid_ppm?(ppm) && is_valid_temp?(temp)
+end
+
+def data_to_csv(metric_to_export)
+  export = [['date','figure']]
+  @tracking_data.each do |k, v|
+    export << [v['date'], v[metric_to_export]]
+  end
+  File.open('public/chart_data.csv', 'w') { |f| f.write(export.inject([]) { |csv, row| csv << CSV.generate_line(row) }.join(""))}
+end
+
+def data_to_json
+  @tracking_data.values.to_json
 end
 
 get "/" do

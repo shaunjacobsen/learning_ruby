@@ -2,8 +2,27 @@
 
 <p><a href="/entry/new">New Entry</a></p>
 
-<ul>
+<table class="table table-condensed table-hover" style="width:50%;">
+  <tr>
+    <thead>
+      <td class="col-md-3">Date</td>
+      <td class="col-md-2">Temp</td>
+      <td class="col-md-2">pH</td>
+      <td class="col-md-2">Ammonia</td>
+      <td class="col-md-2">Nitrites</td>
+      <td class="col-md-2">Nitrates</td>
+    </thead>
+  </tr>
   <% @tracking_data.each do |k, v| %>
-  <li><a href="/entry/<%= k %>"><%= parse_date_day_month_year(v['date']) %></a></li>
-  <% end %>
-</ul>
+    <tr>
+      <td><a href="/entry/<%= k %>"><%= parse_date_day_month_year(v['date']) %></a></td>
+      <td><%= v['temp'] %></td>
+      <td><%= v['pH'] %> <i class="fa <%= compare_with_previous('pH', k) %>" aria-hidden="true"></i></td>
+      <td><%= v['ammonia'] %> <i class="fa <%= compare_with_previous('ammonia', k) %>" aria-hidden="true"></i></td>
+      <td><%= v['nitrites'] %> <i class="fa <%= compare_with_previous('nitrites', k) %>" aria-hidden="true"></i></td>
+      <td><%= v['nitrates'] %> <i class="fa <%= compare_with_previous('nitrates', k) %>" aria-hidden="true"></i></td>
+    </tr>
+    <% end %>
+</table>
+
+<p><a href="/entry/new">New Entry</a></p>

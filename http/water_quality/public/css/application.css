@@ -98,3 +98,21 @@ body {
   background-color: #76EEC6;
   text-align: center;
 }
+
+.axis path {
+    fill: none;
+    stroke: #777;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 13px;
+}
+
+.fa-arrow-up {
+  color: #66ffc2;
+}
+
+.fa-arrow-down {
+  color: #ff9999;
+}
