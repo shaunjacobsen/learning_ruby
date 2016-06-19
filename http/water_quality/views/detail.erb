@@ -4,26 +4,31 @@
   <div class="figure-box">
     <span class="metric">pH</span><br />
     <span class="figure"><%= @selected_data['pH'] %></span>
+    <span class="compare_num"><i class="fa <%= determine_arrow('pH', @id) %>" aria-hidden="true"></i> <%= compare_with_previous('pH', @id) %></span>
   </div>
 
   <div class="figure-box">
     <span class="metric">Ammonia</span><br />
     <span class="figure"><%= @selected_data['ammonia'] %><span class="units">PPM</span></span>
+    <span class="compare_num"><i class="fa <%= determine_arrow('ammonia', @id) %>" aria-hidden="true"></i> <%= compare_with_previous('ammonia', @id) %></span>
   </div>
 
   <div class="figure-box">
     <span class="metric">Nitrites</span><br />
     <span class="figure"><%= @selected_data['nitrites'] %><span class="units">PPM</span></span>
+    <span class="compare_num"><i class="fa <%= determine_arrow('nitrites', @id) %>" aria-hidden="true"></i> <%= compare_with_previous('nitrites', @id) %></span>
   </div>
 
   <div class="figure-box">
     <span class="metric">Nitrates</span><br />
     <span class="figure"><%= @selected_data['nitrates'] %><span class="units">PPM</span></span>
+    <span class="compare_num"><i class="fa <%= determine_arrow('nitrates', @id) %>" aria-hidden="true"></i> <%= compare_with_previous('nitrates', @id) %></span>
   </div>
 
   <div class="figure-box">
     <span class="metric">Temp</span><br />
     <span class="figure"><%= @selected_data['temp'] %>&deg;</span>
+    <span class="compare_num"><i class="fa <%= determine_arrow('temp', @id) %>" aria-hidden="true"></i> <%= compare_with_previous('temp', @id) %></span>
   </div>
 
   <div>

@@ -1,33 +1,73 @@
 ---
 5:
-  date: 2016-06-07 20:15:50.000000000 -05:00
-  pH: '3'
-  temp: '3'
-  ammonia: '3'
-  nitrites: '3'
-  nitrates: '3'
-  notes: '3'
-6:
-  date: 2016-06-08 21:34:29.000000000 -05:00
-  pH: '8.1'
-  temp: '0'
+  date: 2016-05-10 22:30:00.000000000 -05:00
+  pH: '7.8'
+  temp: '24.6'
   ammonia: '0'
+  nitrites: '0'
+  nitrates: '0'
+  notes: ''
+6:
+  date: 2016-05-12 20:00:00.000000000 -05:00
+  pH: '7.6'
+  temp: '0'
+  ammonia: '0.5'
   nitrites: '0'
   nitrates: '0'
   notes: ''
 7:
-  date: 2016-06-08 21:36:03.000000000 -05:00
-  pH: '9'
+  date: 2016-05-13 21:00:00.000000000 -05:00
+  pH: '8'
   temp: '0'
-  ammonia: '9'
+  ammonia: '0'
   nitrites: '0'
   nitrates: '0'
   notes: ''
 8:
-  date: 2016-06-19 14:49:03.000000000 -05:00
+  date: 2016-05-15 11:00:00.000000000 -05:00
+  pH: '8.2'
+  temp: '0'
+  ammonia: '0.5'
+  nitrites: '0'
+  nitrates: '0'
+  notes: ''
+9:
+  date: 2016-05-23 18:00:00.000000000 -05:00
+  pH: '8.0'
+  temp: '0'
+  ammonia: '3'
+  nitrites: '.25'
+  nitrates: '0'
+  notes: ''
+10:
+  date: 2016-05-28 08:30:00.000000000 -05:00
+  pH: '8'
+  temp: '0'
+  ammonia: '2'
+  nitrites: '.5'
+  nitrates: '0'
+  notes: ''
+11:
+  date: 2016-06-04 17:00:00.000000000 -05:00
+  pH: '8.2'
+  temp: '0'
+  ammonia: '0'
+  nitrites: '5'
+  nitrates: '0'
+  notes: ''
+12:
+  date: 2016-06-09 08:00:00.000000000 -05:00
   pH: '8'
   temp: '0'
   ammonia: '0'
   nitrites: '5'
-  nitrates: '2'
-  notes: Fish added
+  nitrates: '0'
+  notes: ''
+13:
+  date: 2016-06-19 10:30:00.000000000 -05:00
+  pH: '8'
+  temp: '0'
+  ammonia: '0'
+  nitrites: '2'
+  nitrates: '0'
+  notes: 'Fish added'

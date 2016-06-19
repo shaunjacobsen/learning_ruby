@@ -27,12 +27,23 @@ helpers do
   end
 end
 
+def change?(data)
+  data.to_f == 0.0 ? "–" : data
+end
+
 def compare_with_previous(figure, current_id)
   current_data = @tracking_data[current_id]
   previous_id = current_id.to_i - 1
   previous_data = @tracking_data[previous_id]
   if previous_data
     comparison = current_data[figure].to_f - previous_data[figure].to_f
+  end
+  comparison ? change?(comparison.round(1)) : nil
+end
+
+def determine_arrow(figure, current_id)
+  comparison = compare_with_previous(figure, current_id).to_f
+  if !comparison.nil?
     if comparison > 0
       "fa-arrow-up"
     elsif comparison < 0
@@ -41,7 +52,6 @@ def compare_with_previous(figure, current_id)
       ""
     end
   end
-
 end
 
 def is_valid_pH?(pH)

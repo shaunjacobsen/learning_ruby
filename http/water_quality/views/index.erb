@@ -17,10 +17,10 @@
     <tr>
       <td><a href="/entry/<%= k %>"><%= parse_date_day_month_year(v['date']) %></a></td>
       <td><%= v['temp'] %></td>
-      <td><%= v['pH'] %> <i class="fa <%= compare_with_previous('pH', k) %>" aria-hidden="true"></i></td>
-      <td><%= v['ammonia'] %> <i class="fa <%= compare_with_previous('ammonia', k) %>" aria-hidden="true"></i></td>
-      <td><%= v['nitrites'] %> <i class="fa <%= compare_with_previous('nitrites', k) %>" aria-hidden="true"></i></td>
-      <td><%= v['nitrates'] %> <i class="fa <%= compare_with_previous('nitrates', k) %>" aria-hidden="true"></i></td>
+      <td><%= v['pH'] %> <i class="fa <%= determine_arrow('pH', k) %>" aria-hidden="true"></i></td>
+      <td><%= v['ammonia'] %> <i class="fa <%= determine_arrow('ammonia', k) %>" aria-hidden="true"></i></td>
+      <td><%= v['nitrites'] %> <i class="fa <%= determine_arrow('nitrites', k) %>" aria-hidden="true"></i></td>
+      <td><%= v['nitrates'] %> <i class="fa <%= determine_arrow('nitrates', k) %>" aria-hidden="true"></i></td>
     </tr>
     <% end %>
 </table>

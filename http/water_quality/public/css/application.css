@@ -55,6 +55,11 @@ body {
   font-weight: 700;
 }
 
+.figure-box .compare_num {
+  display: block;
+  margin-top: -5px;
+}
+
 .units {
   font-size: 10px;
   font-weight: 400;
