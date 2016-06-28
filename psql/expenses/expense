@@ -2,4 +2,11 @@
 
 require 'pg'
 
-puts "Hello World"
+connection = PG.connect(dbname: 'expenses')
+
+show_all = connection.exec('SELECT * FROM expenses;')
+
+show_all.each do |row|
+  results = [row['id'].rjust(3), row['created_on'].rjust(30), row['amount'].rjust(12), row['memo']]
+  puts results.join(' | ')
+end
