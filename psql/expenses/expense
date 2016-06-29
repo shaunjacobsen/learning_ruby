@@ -12,8 +12,11 @@ class ExpenseData
   # show a list of expenses
   def list
     show_all = @connection.exec('SELECT * FROM expenses;')
-
-    display_results(show_all)
+    if show_all.ntuples > 0
+      display_results(show_all)
+    else
+      puts "No expenses."
+    end
   end
 
   # add an expense
@@ -34,13 +37,17 @@ class ExpenseData
   def delete(id)
     # check for existence of an expense with specified id
     result = @connection.exec_params("SELECT * FROM expenses WHERE id = $1;", [id])
-    if result.ntuples > 0
+    if result.ntuples == 1
       @connection.exec_params("DELETE FROM expenses WHERE id = $1", [id])
       puts "The following expense was deleted:"
       display_results(result)
     else
       puts "There is no expense with the id '#{id}'."
     end
+  end
+
+  def clear
+    @connection.exec("DELETE FROM expenses")
   end
 
   private
@@ -96,6 +103,13 @@ class CLI
     when 'delete'
       id = args[0]
       @application.delete(id)
+    when 'clear'
+      puts "This will remove all expenses. Are you sure you'd like to continue? (y/n)"
+      confirmation = gets.chomp
+      if confirmation.downcase == 'y'
+        @application.clear
+        puts "All expenses have been deleted."
+      end
     else
       help
     end
