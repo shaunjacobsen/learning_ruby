@@ -2,61 +2,71 @@
 
 require 'pg'
 
-# connect to the database
-@connection = PG.connect(dbname: 'expenses')
+class ExpenseData
 
-# show the help menu
-def help
-  puts "An expense recording system"
-  puts ""
-  puts "Commands:"
-  puts ""
-  puts "add AMOUNT MEMO [DATE] - record a new expense"
-  puts "clear - delete all expenses"
-  puts "list - list all expenses"
-  puts "delete NUMBER - remove expense with id NUMBER"
-  puts "search QUERY - list expenses with a matching memo field"
-end
-
-# show a list of expenses
-def list
-  show_all = @connection.exec('SELECT * FROM expenses;')
-
-  show_all.each do |row|
-    results = [row['id'].rjust(3), row['created_on'].rjust(30), row['amount'].rjust(6), row['memo']]
-    puts results.join(' | ')
+  def initialize
+    # connect to the database
+    @connection = PG.connect(dbname: 'expenses')
   end
-end
 
-def is_valid_price?(price)
-  price > 0.00
-end
+  # show a list of expenses
+  def list
+    show_all = @connection.exec('SELECT * FROM expenses;')
 
-# add an expense
-def add
-  params = ARGV
-  if params.size == 3
-    price = params[1].to_f
-    note = params[2]
-
-    if is_valid_price?(price)
-      @connection.exec("INSERT INTO expenses (amount, memo) VALUES (#{price}, '#{note}');")
-    else
-      puts "Price is not valid"
+    show_all.each do |row|
+      results = [row['id'].rjust(3), row['created_on'].rjust(30), row['amount'].rjust(6), row['memo']]
+      puts results.join(' | ')
     end
-  elsif params.size > 3
-    puts "If the memo is longer than one word, please ensure it is enclosed in quotes."
-  else
-    puts "Error: You must provide an amount and a memo."
+  end
+
+  # add an expense
+  def add(amount, memo)
+    # timestamp omitted because column defaults to NOW()
+    @connection.exec_params("INSERT INTO expenses (amount, memo) VALUES ($1, $2);", [amount, memo])
+  end
+
+end
+
+
+class CLI
+
+  def initialize
+    @application = ExpenseData.new
+  end
+
+  # determine if the price value is greater than 0.00
+  def is_valid_price?(price)
+    price > 0.00
+  end
+
+  # show the help menu
+  def help
+    puts "An expense recording system"
+    puts ""
+    puts "Commands:"
+    puts ""
+    puts "add AMOUNT MEMO [DATE] - record a new expense"
+    puts "clear - delete all expenses"
+    puts "list - list all expenses"
+    puts "delete NUMBER - remove expense with id NUMBER"
+    puts "search QUERY - list expenses with a matching memo field"
+  end
+
+  # check arguments to script
+  def run(args)
+    command = args.shift
+    case command
+    when 'add'
+      amount = args[0].to_f
+      memo = args[1]
+      abort 'Error: You must provide an amount and a memo.' unless is_valid_price?(amount) && memo
+      @application.add(amount,memo)
+    when 'list'
+      @application.list
+    else
+      help
+    end
   end
 end
 
-# check arguments to script
-command = ARGV.first
-if command == 'list'
-  list
-elsif command == 'add'
-  add
-else
-  help
-end
+CLI.new.run(ARGV)
