@@ -2,11 +2,36 @@
 
 require 'pg'
 
+# connect to the database
 connection = PG.connect(dbname: 'expenses')
 
-show_all = connection.exec('SELECT * FROM expenses;')
+# show the help menu
+def help
+  puts "An expense recording system"
+  puts ""
+  puts "Commands:"
+  puts ""
+  puts "add AMOUNT MEMO [DATE] - record a new expense"
+  puts "clear - delete all expenses"
+  puts "list - list all expenses"
+  puts "delete NUMBER - remove expense with id NUMBER"
+  puts "search QUERY - list expenses with a matching memo field"
+end
 
-show_all.each do |row|
-  results = [row['id'].rjust(3), row['created_on'].rjust(30), row['amount'].rjust(12), row['memo']]
-  puts results.join(' | ')
+# show a list of expenses
+def list
+  show_all = connection.exec('SELECT * FROM expenses;')
+
+  show_all.each do |row|
+    results = [row['id'].rjust(3), row['created_on'].rjust(30), row['amount'].rjust(12), row['memo']]
+    puts results.join(' | ')
+  end
+end
+
+# check arguments to script
+command = ARGV.first
+if command == 'list'
+  list
+else
+  help
 end
