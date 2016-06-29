@@ -7,6 +7,14 @@ class ExpenseData
   def initialize
     # connect to the database
     @connection = PG.connect(dbname: 'expenses')
+    setup_schema
+  end
+
+  def setup_schema
+    check = @connection.exec("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'expenses';")
+    if check[0]['count'] == '0'
+      @connection.exec("CREATE TABLE expenses (id serial PRIMARY KEY, amount numeric(5,2) NOT NULL, memo text NOT NULL, created_on timestamp DEFAULT now() NOT NULL);")
+    end
   end
 
   # show a list of expenses
@@ -52,11 +60,25 @@ class ExpenseData
 
   private
 
+  def display_count(results)
+    puts "There are #{results.ntuples} expenses."
+  end
+
+  def display_total(results)
+    puts '-' * 55
+    total_sum = results.inject(0) do |sum, row|
+      sum + row['amount'].to_f
+    end
+    puts "Total #{total_sum.to_s.rjust(39)}"
+  end
+
   def display_results(results)
+    display_count(results)
     results.each do |row|
       columns = [row['id'].rjust(3), row['created_on'].rjust(30), row['amount'].rjust(6), row['memo']]
       puts columns.join(' | ')
     end
+    display_total(results)
   end
 
 end
