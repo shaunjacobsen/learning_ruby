@@ -3,7 +3,7 @@
 require 'pg'
 
 # connect to the database
-connection = PG.connect(dbname: 'expenses')
+@connection = PG.connect(dbname: 'expenses')
 
 # show the help menu
 def help
@@ -20,18 +20,35 @@ end
 
 # show a list of expenses
 def list
-  show_all = connection.exec('SELECT * FROM expenses;')
+  show_all = @connection.exec('SELECT * FROM expenses;')
 
   show_all.each do |row|
-    results = [row['id'].rjust(3), row['created_on'].rjust(30), row['amount'].rjust(12), row['memo']]
+    results = [row['id'].rjust(3), row['created_on'].rjust(30), row['amount'].rjust(6), row['memo']]
     puts results.join(' | ')
   end
+end
+
+def is_valid_price?(price)
+  price > 0.00
 end
 
 # add an expense
 def add
   params = ARGV
-  puts params
+  if params.size == 3
+    price = params[1].to_f
+    note = params[2]
+
+    if is_valid_price?(price)
+      @connection.exec("INSERT INTO expenses (amount, memo) VALUES (#{price}, '#{note}');")
+    else
+      puts "Price is not valid"
+    end
+  elsif params.size > 3
+    puts "If the memo is longer than one word, please ensure it is enclosed in quotes."
+  else
+    puts "Error: You must provide an amount and a memo."
+  end
 end
 
 # check arguments to script
