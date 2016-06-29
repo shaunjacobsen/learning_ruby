@@ -13,16 +13,43 @@ class ExpenseData
   def list
     show_all = @connection.exec('SELECT * FROM expenses;')
 
-    show_all.each do |row|
-      results = [row['id'].rjust(3), row['created_on'].rjust(30), row['amount'].rjust(6), row['memo']]
-      puts results.join(' | ')
-    end
+    display_results(show_all)
   end
 
   # add an expense
   def add(amount, memo)
     # timestamp omitted because column defaults to NOW()
     @connection.exec_params("INSERT INTO expenses (amount, memo) VALUES ($1, $2);", [amount, memo])
+  end
+
+  # search for an expense by memo
+  def search(keyword)
+    # capitalize search keywords so SQL query is case-insensitive
+    keyword = keyword.upcase
+    search_results = @connection.exec_params("SELECT * FROM expenses WHERE UPPER(memo) ILIKE $1;", ["%#{keyword}%"])
+
+    display_results(search_results)
+  end
+
+  def delete(id)
+    # check for existence of an expense with specified id
+    result = @connection.exec_params("SELECT * FROM expenses WHERE id = $1;", [id])
+    if result.ntuples > 0
+      @connection.exec_params("DELETE FROM expenses WHERE id = $1", [id])
+      puts "The following expense was deleted:"
+      display_results(result)
+    else
+      puts "There is no expense with the id '#{id}'."
+    end
+  end
+
+  private
+
+  def display_results(results)
+    results.each do |row|
+      columns = [row['id'].rjust(3), row['created_on'].rjust(30), row['amount'].rjust(6), row['memo']]
+      puts columns.join(' | ')
+    end
   end
 
 end
@@ -61,8 +88,14 @@ class CLI
       memo = args[1]
       abort 'Error: You must provide an amount and a memo.' unless is_valid_price?(amount) && memo
       @application.add(amount,memo)
+    when 'search'
+      search_terms = args[0]
+      @application.search(search_terms)
     when 'list'
       @application.list
+    when 'delete'
+      id = args[0]
+      @application.delete(id)
     else
       help
     end
