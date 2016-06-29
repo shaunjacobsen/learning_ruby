@@ -28,10 +28,18 @@ def list
   end
 end
 
+# add an expense
+def add
+  params = ARGV
+  puts params
+end
+
 # check arguments to script
 command = ARGV.first
 if command == 'list'
   list
+elsif command == 'add'
+  add
 else
   help
 end
