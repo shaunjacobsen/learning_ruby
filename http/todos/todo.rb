@@ -14,6 +14,7 @@ end
 
 configure(:development) do
   require 'sinatra/reloader'
+  require 'pry'
   also_reload 'database_persistence.rb'
 end
 
@@ -21,7 +22,6 @@ end
 
 helpers do
   def list_complete?(list)
-    todos_count(list) > 0 && todos_remaining_count(list) == 0
   end
 
   def list_class(list)
@@ -179,7 +179,8 @@ end
 post '/lists/:list_id/todos/:id/destroy' do
   @list_id = params[:list_id].to_i
   @list = load_list(@list_id)
-  @storage.delete_todo_from_list(list_id, todo_id)
+  todo_id = params[:id].to_i
+  @storage.delete_todo_from_list(@list_id, todo_id)
   if env["HTTP_X_REQUESTED_WITH"] == "XMLHttpRequest"
     status 204
   else

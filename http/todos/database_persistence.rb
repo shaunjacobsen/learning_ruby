@@ -44,36 +44,30 @@ class DatabasePersistence
     query("UPDATE lists SET name = $1 WHERE id = $2", new_name, id)
   end
 
-  # def create_new_todo(list_id, todo_name)
-  #   list = find_list(list_id)
-  #   id = next_element_id(list[:todos])
-  #   list[:todos] << { id: id, name: todo_name, completed: false }
-  # end
+  def create_new_todo(list_id, todo_name)
+    query("INSERT INTO todos (list_id, name) VALUES ($1, $2)",
+          list_id, todo_name)
+  end
 
-  # def delete_todo_from_list(list_id, todo_id)
-  #   list = find_list(list_id)
-  #   list[:todos].reject! { |todo| todo[:id] == todo_id }
-  # end
+  def delete_todo_from_list(list_id, todo_id)
+    query("DELETE FROM todos WHERE id = $1 AND list_id = $2", todo_id, list_id)
+  end
 
-  # def update_todo_status(list_id, todo_id, status)
-  #   list = find_list(list_id)
-  #   todo = list[:todos].find { |t| t[:id] == todo_id }
-  #   todo[:completed] = status
-  # end
+  def update_todo_status(list_id, todo_id, status)
+    query("UPDATE todos SET completed = $1 WHERE id = $2 AND list_id = $3",
+          status, todo_id, list_id)
+  end
 
-  # def mark_all_todos_as_completed(list_id)
-  #   list = find_list(list_id)
-  #   list[:todos].each do |todo|
-  #     todo[:completed] = true
-  #   end
-  # end
+  def mark_all_todos_as_completed(list_id)
+    query("UPDATE todos SET completed = true WHERE list_id = $1", list_id)
+  end
 
   private
 
   def find_todos_for_list(list_id)
     get_todos = query("SELECT * FROM todos WHERE list_id = $1", list_id)
     retrieved_todos = get_todos.map do |todo|
-      { id: list_id, name: todo['name'], completed: todo['completed'] == 't' }
+      { id: todo['id'], name: todo['name'], completed: todo['completed'] == 't' }
     end
   end
 
