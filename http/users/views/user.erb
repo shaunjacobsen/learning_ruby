@@ -1,0 +1,14 @@
+<h2><%= @username %></h2>
+
+<p>Email: <%= @email %></p>
+<h3>Interests</h3>
+<%= @interests %>
+
+<h4>Other Profiles</h4>
+<ul>
+  <% @users.each do |name| %>
+    <% if name.first != @username %>
+      <li><a href="/user/<%= name.first %>"><%= name.first %></a></li>
+    <% end %>
+  <% end %>
+</ul>
