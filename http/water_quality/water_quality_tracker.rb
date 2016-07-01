@@ -1,10 +1,10 @@
 require "sinatra"
-require "sinatra/reloader" if development?
 require "sinatra/content_for"
 require "tilt/erubis"
 require "yaml"
-require "csv"
-require "json"
+require "time"
+
+require_relative 'database'
 
 configure do
   enable :sessions
@@ -12,18 +12,26 @@ configure do
   set :erb, :escape_html => true
 end
 
+configure(:development) do
+  require 'sinatra/reloader'
+  require 'pry'
+  also_reload 'database.rb'
+end
+
 before do
-  @tracking_data = YAML.load(File.open('data.yml'))
-  @tracking_data = @tracking_data.sort.to_h
+  @storage = Database.new(logger)
+  @tracking_data = @storage.all_entries
 end
 
 helpers do
   def parse_date_day_month_year(date)
-    date.strftime("%-d %B %Y")
+    new_date = Time.parse(date)
+    new_date.strftime("%-d %B %Y")
   end
 
   def parse_time_from_date(date)
-    date.strftime("%H:%M")
+    new_date = Time.parse(date)
+    new_date.strftime("%H:%M")
   end
 end
 
@@ -32,9 +40,11 @@ def change?(data)
 end
 
 def compare_with_previous(figure, current_id)
+  current_id = current_id.to_i - 1
   current_data = @tracking_data[current_id]
-  previous_id = current_id.to_i - 1
+  previous_id = current_id > 0 ? current_id.to_i - 1 : 0
   previous_data = @tracking_data[previous_id]
+  # binding.pry
   if previous_data
     comparison = current_data[figure].to_f - previous_data[figure].to_f
   end
@@ -87,38 +97,18 @@ get "/" do
 end
 
 get "/entry/new" do
-  @last_id = @tracking_data.keys.last
-  if @tracking_data.keys.include? (@last_id + 1)
-    session[:error] = "There was an error creating a new log entry."
-  else
-    @next_id = @last_id + 1
-  end
-  @today = Time.now
-
   erb :new, layout: :layout
 end
 
 post "/entry/new" do
-  data = {
-    params[:new_id].to_i => {
-      "date" => Time.parse(params[:date]),
-      "pH" => params[:pH],
-      "temp" => params[:temp],
-      "ammonia" => params[:ammonia],
-      "nitrites" => params[:nitrites],
-      "nitrates" => params[:nitrates],
-      "notes" => params[:notes]
-    }
-  }
-  combined_data = @tracking_data.merge(data)
-  File.write('data.yml', combined_data.to_yaml)
+  @storage.new_entry(params[:pH], params[:temp], params[:ammonia], params[:nitrites], params[:nitrates], params[:notes])
   redirect "/"
 end
 
 get "/entry/edit/:id" do
   @id = params[:id].to_i
-  if @tracking_data.has_key?(@id)
-    @selected_data = @tracking_data.fetch(@id)
+  if @storage.get_entry(@id)
+    @selected_data = @storage.get_entry(@id)
   else
     session[:error] = "Cannot find data."
   end
@@ -126,27 +116,16 @@ get "/entry/edit/:id" do
 end
 
 post "/entry/edit" do
-  data = {
-    params[:id].to_i => {
-      "date" => Time.parse(params[:date]),
-      "pH" => params[:pH],
-      "temp" => params[:temp],
-      "ammonia" => params[:ammonia],
-      "nitrites" => params[:nitrites],
-      "nitrates" => params[:nitrates],
-      "notes" => params[:notes]
-    }
-  }
-  remove_edited_entry = @tracking_data.reject { |k, _| k == params[:id] }
-  combined_data = remove_edited_entry.merge(data)
-  File.write('data.yml', combined_data.to_yaml)
+  @storage.update_entry(params[:id].to_i, params[:pH], params[:temp], params[:ammonia], params[:nitrites], params[:nitrates], params[:notes])
   redirect "/entry/#{params[:id]}"
 end
 
 get "/entry/:id" do
   @id = params[:id].to_i
-  if @tracking_data.has_key?(@id)
-    @selected_data = @tracking_data.fetch(@id)
+  array_id = @id - 1
+  if !@tracking_data[array_id].nil?
+    #binding.pry
+    @selected_data = @storage.get_entry(@id)
   else
     session[:error] = "Cannot find data."
   end

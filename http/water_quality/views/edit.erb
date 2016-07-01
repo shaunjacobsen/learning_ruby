@@ -1,12 +1,11 @@
-<h2>Edit Log Entry <span class="light">for <%= parse_date_day_month_year(@selected_data['date']) %> at <%= parse_time_from_date(@selected_data['date']) %></span></h2>
+<h2>Edit Log Entry <span class="light">for <%= parse_date_day_month_year(@selected_data['date_entered']) %> at <%= parse_time_from_date(@selected_data['date_entered']) %></span></h2>
 
 <form action="/entry/edit" method="post" class="new">
-  <input type="hidden" name="date" value="<%= @selected_data['date'] %>">
   <input type="hidden" name="id" value="<%= @id %>">
   <table>
     <tr>
       <td><label for="pH">pH</label></td>
-      <td><input type="text" name="pH" value="<%= @selected_data['pH'] %>"></td>
+      <td><input type="text" name="pH" value="<%= @selected_data['ph'] %>"></td>
     </tr>
     <tr>
       <td><label for="ammonia">ammonia</label></td>

@@ -1,8 +1,6 @@
-<h2>New Log Entry <span class="light">for <%= parse_date_day_month_year(@today) %> at <%= parse_time_from_date(@today) %></span></h2>
+<h2>New Log Entry <span class="light">for <%= (Time.now.strftime("%-d %B %Y")) %> at <%= (Time.now.strftime("%H:%M")) %></span></h2>
 
 <form action="/entry/new" method="post" class="new">
-  <input type="hidden" name="date" value="<%= Time.now %>">
-  <input type="hidden" name="new_id" value="<%= @next_id %>">
   <table>
     <tr>
       <td><label for="pH">pH</label></td>
