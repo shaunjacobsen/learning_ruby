@@ -12,22 +12,30 @@ class DatabasePersistence
     @db.exec_params(statement, params)
   end
 
+  def find_todos_for_list(list_id)
+    get_todos = query("SELECT * FROM todos WHERE list_id = $1", list_id)
+    retrieved_todos = get_todos.map do |todo|
+      { id: todo['id'], name: todo['name'], completed: todo['completed'] == 't' }
+    end
+  end
+
   def find_list(id)
-    result = query("SELECT * FROM lists WHERE id = $1", id)
+    result = query("SELECT lists.*, COUNT(todos.id) AS todos_count,
+                   COUNT(NULLIF(todos.completed, true)) AS todos_remaining
+                   FROM lists LEFT JOIN todos ON todos.list_id = lists.id WHERE lists.id = $1
+                   GROUP BY lists.id
+                   ORDER BY lists.name;", id)
 
-    tuple = result.first
-
-    list_id = tuple['id'].to_i
-    retrieved_todos = find_todos_for_list(list_id)
-    { id: list_id, name: tuple['name'], todos: retrieved_todos }
+    tuple_to_list_hash(result.first)
   end
 
   def all_lists
-    result = query("SELECT * FROM lists;")
+    result = query("SELECT lists.*, COUNT(todos.id) AS todos_count,
+                   COUNT(NULLIF(todos.completed, true)) AS todos_remaining
+                   FROM lists LEFT JOIN todos ON todos.list_id = lists.id GROUP BY lists.id
+                   ORDER BY lists.name;")
     result.map do |tuple|
-      list_id = tuple['id'].to_i
-      retrieved_todos = find_todos_for_list(list_id)
-      { id: list_id, name: tuple['name'], todos: retrieved_todos }
+      tuple_to_list_hash(tuple)
     end
   end
 
@@ -64,11 +72,13 @@ class DatabasePersistence
 
   private
 
-  def find_todos_for_list(list_id)
-    get_todos = query("SELECT * FROM todos WHERE list_id = $1", list_id)
-    retrieved_todos = get_todos.map do |todo|
-      { id: todo['id'], name: todo['name'], completed: todo['completed'] == 't' }
-    end
+  def tuple_to_list_hash(tuple)
+    {
+      id: tuple['id'].to_i,
+      name: tuple['name'],
+      todos_count: tuple['todos_count'].to_i,
+      todos_remaining: tuple['todos_remaining'].to_i
+    }
   end
 
 end

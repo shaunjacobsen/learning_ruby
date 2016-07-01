@@ -13,27 +13,20 @@ configure do
 end
 
 configure(:development) do
-  require 'sinatra/reloader'
-  require 'pry'
-  also_reload 'database_persistence.rb'
+  require "sinatra/reloader"
+  require "pry"
+  also_reload "database_persistence.rb"
 end
 
 # helpers
 
 helpers do
   def list_complete?(list)
+    list[:todos_count] > 0 && list[:todos_remaining] == 0
   end
 
   def list_class(list)
     "complete" if list_complete?(list)
-  end
-
-  def todos_count(list)
-    list[:todos].size
-  end
-
-  def todos_remaining_count(list)
-    list[:todos].count { |todo| !todo[:completed] }
   end
 
   def sort_lists(lists, &block)
@@ -87,6 +80,7 @@ end
 get "/lists/:id" do
   @list_id = params[:id].to_i
   @list = load_list(@list_id)
+  @todos = @storage.find_todos_for_list(@list_id)
   erb :list, layout: :layout
 end
 
@@ -179,8 +173,7 @@ end
 post '/lists/:list_id/todos/:id/destroy' do
   @list_id = params[:list_id].to_i
   @list = load_list(@list_id)
-  todo_id = params[:id].to_i
-  @storage.delete_todo_from_list(@list_id, todo_id)
+  @storage.delete_todo_from_list(list_id, todo_id)
   if env["HTTP_X_REQUESTED_WITH"] == "XMLHttpRequest"
     status 204
   else
