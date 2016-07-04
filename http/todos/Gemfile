@@ -8,3 +8,4 @@ gem "erubis"
 
 gem 'pg'
 gem 'pry'
+gem 'sequel'
