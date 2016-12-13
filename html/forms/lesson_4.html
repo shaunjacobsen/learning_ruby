@@ -28,96 +28,39 @@
     </fieldset>
   </form>
 
-  <form action="" method="get">
+<form action="" method="get">
   <fieldset>
-    <h1>Category</h1>
-    <ul>
-      <li>
-        <label>
-          <input type="radio" name="category" value="core" />
-          Core
-        </label>
-      </li>
-      <li>
-        <label>
-          <input type="radio" name="category" value="plugins" />
-          Plugins and Libraries
-        </label>
-      </li>
-      <li>
-        <label>
-          <input type="radio" name="category" value="conventions" />
-          Conventions
-        </label>
-      </li>
-      <li>
-        <label>
-          <input type="radio" name="category" value="reviews" />
-          Reviews
-        </label>
-      </li>
-      <li>
-        <label>
-          <input type="radio" name="category" value="opinion" />
-          Opinion
-        </label>
-      </li>
-      <li>
-        <label>
-          <input type="radio" name="category" value="people" />
-          People
-        </label>
-      </li>
-    </ul>
-
-    <h1>Tags</h1>
-    <ul>
-      <li>
-        <label>
-          <input type="checkbox" name="html" />
-          HTML
-        </label>
-      </li>
-      <li>
-        <label>
-          <input type="checkbox" name="css" />
-          CSS
-        </label>
-      </li>
-      <li>
-        <label>
-          <input type="checkbox" name="javascript" />
-          Javascript
-        </label>
-      </li>
-      <li>
-        <label>
-          <input type="checkbox" name="ruby" />
-          Ruby
-        </label>
-      </li>
-      <li>
-        <label>
-          <input type="checkbox" name="rails" />
-          Rails
-        </label>
-      </li>
-      <li>
-        <label>
-          <input type="checkbox" name="python" />
-          Python
-        </label>
-      </li>
-      <li>
-        <label>
-          <input type="checkbox" name="django" />
-          Django
-        </label>
-      </li>
-    </ul>
+    <dl>
+      <dt>
+        <label for="category">Category</label>
+      </dt>
+      <dd>
+        <select name="category">
+          <option value="core">Core</option>
+          <option value="plugins">Plugins and Libraries</option>
+          <option value="conventions">Conventions</option>
+          <option value="reviews">Reviews</option>
+          <option value="opinion">Opinion</option>
+          <option value="people">People</option>
+        </select>
+      </dd>
+      <dt>
+        <label for="tags">Tags</label>
+      </dt>
+      <dd>
+        <select name="tags" multiple>
+          <option value="html">HTML</option>
+          <option value="css">CSS</option>
+          <option value="javascript">Javascript</option>
+          <option value="ruby">Ruby</option>
+          <option value="rails">Rails</option>
+          <option value="python">Python</option>
+          <option value="django">Django</option>
+        </select>
+      </dd>
+    </dl>
     <input type="submit" value="Filter" />
   </fieldset>
 </form>
-
   </body>
   </html>
