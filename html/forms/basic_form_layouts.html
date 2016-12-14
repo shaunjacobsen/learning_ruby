@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font: normal 14px Helvetica, Arial, sans-serif;
+    }
+    dl {
+      margin: 0;
+      padding-bottom: 20px;
+    }
+    dt {
+      padding-bottom: 10px;
+      vertical-align: middle;
+      padding-right: 20px;
+      box-sizing: border-box;
+    }
+    dd {
+      padding-bottom: 10px;
+      margin: 0;
+    }
+    input[type="text"] {
+      width: 100%;
+      height: 40px;
+      padding: 0 8px;
+      font: normal 14px Helvetica, Arial, sans-serif;
+      border-radius: 4px;
+      border: 1px solid;
+      box-sizing: border-box;
+    }
+    input[type="text"] + input[type="text"] {
+      margin-top: 10px;
+    }
+    select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 40px;
+      padding: 0 8px;
+      background: white;
+      font: normal 14px Helvetica, Arial, sans-serif;
+      box-sizing: border-box;
+      border-radius: 4px;
+    }
+    dl.partial {
+      display: inline-block;
+      padding-right: 20px;
+      box-sizing: border-box;
+    }
+    dl.city {
+      width: 50%;
+    }
+    dl.state {
+      width: 25%;
+    }
+    dl.postal {
+      width: 25%;
+      padding-right: 0;
+    }
+  </style>
+  <title>Form Layout</title>
+</head>
+<body>
+  <form action="" method="post">
+    <dl>
+      <dt>
+        <label for="name">Your Name</label>
+      </dt>
+      <dd>
+        <input type="text" name="name" id="name" />
+      </dd>
+    </dl>
+    <dl>
+      <dt>
+        <label for="address1">Address</label>
+      </dt>
+      <dd>
+        <input type="text" name="address1" id="address1" />
+        <input type="text" name="address2" id="address2" />
+      </dd>
+    </dl><!--
+    --><dl class="city partial">
+      <dt><label for="city">City</label></dt>
+      <dd><input type="text" name="city" id="city"></dd>
+    </dl><!--
+    --><dl class="state partial">
+      <dt><label for="state">State</label></dt>
+      <dd><select name="state" id="state">
+        <option value="AK">Alaska</option>
+        <option value="AL">Alabama</option>
+      </select></dd>
+    </dl><!--
+    --><dl class="postal partial">
+      <dt><label for="postal">Postal Code</label></dt>
+      <dd><input type="text" name="postal" id="postal"></dd>
+    </dl>
+  </form>
+</body>
+</html>
