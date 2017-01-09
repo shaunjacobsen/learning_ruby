@@ -1,0 +1,38 @@
+* {margin: 0; padding: 0;}
+
+body {
+  padding: 135px 0 0 0;
+  font: normal 20px "Avenir", Helvetica, Arial, sans-serif;
+  text-align: center;
+  color: #45494D;
+  background: #2F2840 url('images/bg_body.gif') 50% 0 repeat;
+}
+
+header {
+
+}
+
+header h1 {
+  margin: 0 0 115px 0;
+}
+}
+
+nav {
+  font-size: 26px;
+  text-transform: uppercase;
+}
+
+nav li {
+  display: inline;
+  padding: 0 42px;
+}
+
+nav a {
+  color: #CACACA;
+  text-decoration: none;
+}
+
+nav a.active {
+  font-weight: bold;
+  color: #6DB9FF;
+}
