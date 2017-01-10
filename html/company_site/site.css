@@ -67,8 +67,12 @@ article {
   padding: 0 0 100px 0;
 }
 
+article p {
+  padding: 0 110px;
+}
+
 .column {
-  width: 800px;
+  width: 1000px;
   margin: 0 auto;
 }
 
@@ -100,3 +104,34 @@ footer li a.facebook { background-position: 0 -46px; }
 footer li a.email { background-position: 0 -92px; }
 footer li a.instagram { background-position: 0 -138px; }
 
+#projects figure {
+  padding: 0 0 55px 0;
+}
+
+#projects figure img {
+  display: block;
+}
+
+#team p {
+  padding: 0 120px 120px 120px;
+}
+
+#team ul {
+  padding: 0 0 225px 0;
+}
+
+#team li {
+  display: inline-block;
+  padding: 0 30px;
+  font-size: 24px;
+}
+
+#team li a {
+  text-decoration: none;
+  color: #3E59B2;
+}
+
+#team li img {
+  display: block;
+  margin: 0 0 25px 0;
+}
