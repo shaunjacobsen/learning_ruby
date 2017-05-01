@@ -76,7 +76,7 @@ body {
 }
 
 .sidebar .icon {
-  margin: 0 5px -8px -33px;
+  margin: 0 5px -27px 100px;
   line-height: 28px;
 }
 
@@ -111,7 +111,7 @@ h2 {
 main .count {
   position: relative;
   margin-left: 22px;
-  padding: 2px 5px;
+  padding: 2px 7px;
   bottom: 2px;
 }
 
@@ -199,11 +199,11 @@ input#checkbox1:checked ~ .modal {
   display: inline-block;
   position: absolute;
   top: 108px;
-  left: 440px;
+  left: 335px;
   width: 545px;
   height: 400px;
   background: #fff;
-  margin: 0;
+  margin: 0 25% 0 25%;
   z-index: 100;
 }
 
@@ -310,6 +310,10 @@ input#checkbox1:checked ~ .modal-hide {
 
   .sidebar li {
     padding: 12px 0 10px 75px;
+  }
+
+  .sidebar .icon {
+    margin: 0 5px -37px 40px;
   }
 
   .list-container {
