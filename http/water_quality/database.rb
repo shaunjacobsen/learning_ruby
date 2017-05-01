@@ -1,37 +1,25 @@
-require 'pg'
+require 'sequel'
+
+DB = Sequel.connect("postgres://localhost/waterquality")
 
 class Database
 
   def initialize(logger)
-    @db = PG.connect(dbname: 'waterquality')
-    @logger = logger
-  end
-
-  def query(statement, *params)
-    @logger.info "#{statement}: #{params}"
-    @db.exec_params(statement, params)
+    DB.logger = logger
   end
 
   def all_entries
-    sql = "SELECT * FROM entries;"
-    result = query(sql)
-    result.map do |tuple|
-      { "id" => tuple['id'],
-        "date" => tuple['date_entered'],
-        "pH" => tuple['ph'],
-        "temp" => tuple['temp'],
-        "ammonia" => tuple['ammonia'],
-        "nitrites" => tuple['nitrites'],
-        "nitrates" => tuple['nitrates'],
-        "notes" => tuple['notes']
-      }
-    end
+    DB[:entries].select_all
   end
 
   def get_entry(id)
-    sql = "SELECT * FROM entries WHERE id = $1"
-    result = query(sql, id)
-    result = result.first
+    DB[:entries].where(id: id)
+  end
+
+  def compare_figures(current_id, previous_id, figure)
+    set = DB[:entries].select(figure).where(id: [current_id, previous_id]).order(:id)
+    comparison = set.last[:ph].to_f - set.first[:ph].to_f
+    comparison
   end
 
   def new_entry(ph, temp, ammonia, nitrites, nitrates, notes)

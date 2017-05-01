@@ -172,8 +172,9 @@ end
 # delete a to-do from a to-do list
 post '/lists/:list_id/todos/:id/destroy' do
   @list_id = params[:list_id].to_i
+  todo_id = params[:id].to_i
   @list = load_list(@list_id)
-  @storage.delete_todo_from_list(list_id, todo_id)
+  @storage.delete_todo_from_list(@list_id, todo_id)
   if env["HTTP_X_REQUESTED_WITH"] == "XMLHttpRequest"
     status 204
   else

@@ -25,6 +25,7 @@ end
 
 helpers do
   def parse_date_day_month_year(date)
+    binding.pry
     new_date = Time.parse(date)
     new_date.strftime("%-d %B %Y")
   end
@@ -41,12 +42,9 @@ end
 
 def compare_with_previous(figure, current_id)
   current_id = current_id.to_i - 1
-  current_data = @tracking_data[current_id]
   previous_id = current_id > 0 ? current_id.to_i - 1 : 0
-  previous_data = @tracking_data[previous_id]
-  # binding.pry
-  if previous_data
-    comparison = current_data[figure].to_f - previous_data[figure].to_f
+  if current_id > 0
+    comparison = @storage.compare_figures(current_id, previous_id, figure).to_f
   end
   comparison ? change?(comparison.round(1)) : nil
 end

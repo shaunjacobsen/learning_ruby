@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <title>Fluid Layout</title>
+  <meta charset="utf-8" />
+  <style>
+    main {
+      min-width: 600px;
+      max-width: 1400px;
+    }
+    #content,
+    #sidebar {
+      float: left;
+      padding: 20px 30px;
+      box-sizing: border-box;
+    }
+
+    #content {
+      width: 70%;
+    }
+
+    #sidebar {
+      width: 30%;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div id="content">
+      lorem ipsum whatever
+    </div>
+
+    <div id="sidebar">
+      lorem ipsum right
+    </div>
+  </main>
+</body>
+</html>

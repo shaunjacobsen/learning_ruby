@@ -40,7 +40,7 @@
 
   <div>
     <p><small>Recorded at <%= parse_time_from_date(@selected_data['date_entered']) %> on <%= parse_date_day_month_year(@selected_data['date_entered']) %></small>
-    <% if @selected_data['date_updated'].size > 0 %>
+    <% if !@selected_data['date_updated'].nil? %>
       <br />
       <small>Last updated at <%= parse_time_from_date(@selected_data['date_updated']) %> on <%= parse_date_day_month_year(@selected_data['date_updated']) %></small>
     <% end %>

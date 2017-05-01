@@ -1,0 +1,382 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+@import url("whitespace-reset.css");
+
+body {
+  background: #fff;
+  font-family: Avenir, 'Nunito', Helvetica, Arial, sans-serif;
+}
+
+header {
+  background: #3d3d3d;
+  display: block;
+  padding: 130px 0 50px 0;
+  color: #fff;
+  text-align: center;
+}
+
+h1 {
+  font-size: 68px;
+  font-weight: 400;
+  letter-spacing: 20px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header nav {
+  display: block;
+  margin: 140px 0 0 0;
+}
+
+header nav li {
+  font-size: 20px;
+  padding: 0 25px;
+  display: inline;
+  text-transform: uppercase;
+}
+
+header nav a.selected {
+  color: #50c3af;
+}
+
+header a {
+  color: #fff;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #50c3af;
+}
+
+nav a:hover {
+  color: #f5dc39;
+}
+
+main {
+  background: #fff;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 80px 0 90px 0;
+}
+
+main:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.content {
+  float: left;
+  width: 70%;
+}
+
+article {
+  padding: 0 115px 0 0;
+  margin: 0 0 75px 0;
+}
+
+h2 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+#comments {
+  margin-top: 100px;
+  padding: 0 115px 0 0;
+}
+
+#comments h2:nth-of-type(2) {
+  margin-top: 100px;
+}
+
+.comment {
+  margin-bottom: 35px;
+}
+
+.comment .header {
+  display: block;
+  height: 52px;
+}
+
+.comment .header img {
+  border-radius: 100%;
+  margin: 0 10px 0 0;
+}
+
+.comment-by {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0 0 32px 0;
+}
+
+.comment p {
+  font-size: 18px;
+}
+
+input, textarea {
+  width: 450px;
+  height: 38px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+textarea {
+  resize: none;
+  height: 140px;
+  width: 100%;
+}
+
+form dt {
+  padding: 0 0 5px 0;
+  font-weight: 700;
+}
+
+form dd {
+  padding: 0 0 15px 0;
+}
+
+input[type="submit"] {
+  width: 150px;
+  display: inline-block;
+  padding: 5px 25px;
+  font-size: 18px;
+  color: #ffffff;
+  cursor: pointer;
+  border: none;
+  border-radius: 20px;
+  background: #50c3af;
+  -webkit-appearance: none;
+}
+
+p {
+  font-size: 22px;
+  margin-bottom: 12px;
+  text-align: justify;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination-btn {
+  display: inline;
+  font-size: 14px;
+  color: #fff;
+  background: #d2d5da;
+  border-radius: 15px;
+  padding: 5px 25px;
+  margin-right: 20px;
+}
+
+.pagination-btn.highlight {
+  background: #50c3af;
+}
+
+.sidebar {
+  background: #f6f7f8;
+  overflow: hidden;
+  padding: 40px;
+  color: #40474e;
+}
+
+h3 {
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  padding: 0 0 115px 20px;
+}
+
+.sidebar li {
+  list-style: url("img/blt_ul.png");
+}
+
+.sidebar p {
+  font-size: 14px;
+}
+
+footer {
+  max-width: 1000px;
+  padding: 15px 0 30px 0;
+  margin: 0 auto;
+  font-size: 12px;
+  color: #7e8287;
+  border-top: 1px solid #7e8287;
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 25px 0;
+  }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  header img {
+    width: 100%;
+    height: auto;
+    padding: 0 25px;
+    box-sizing: border-box;
+  }
+
+  header nav {
+    margin: 25px 0 0 0;
+  }
+
+  header nav li {
+    padding: 0 5px;
+  }
+
+  main {
+    padding: 30px 0;
+  }
+
+  article {
+    padding: 0;
+  }
+
+  article h2 {
+    font-size: 28px;
+  }
+
+  article p {
+    font-size: 18px;
+  }
+
+  #comments {
+  margin-top: 50px;
+  padding: 0;
+  }
+
+  #comments h2:nth-of-type(2) {
+    margin-top: 50px;
+  }
+
+  input, textarea {
+    width: 300px;
+    height: 38px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  textarea {
+    resize: none;
+    height: 140px;
+    width: 300px;
+  }
+
+  .content {
+    width: 100%;
+    padding: 25px;
+    box-sizing: border-box;
+  }
+
+  .sidebar {
+    background: none;
+    padding: 20px;
+  }
+
+  .sidebar ul {
+    padding-bottom: 0;
+  }
+
+  .block {
+    display: block;
+    width: auto;
+    background: #f6f7f8;
+    padding: 20px;
+    margin: 0 0 15px 0;
+    box-sizing: border-box;
+  }
+
+  footer {
+    padding: 20px;
+  }
+
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 75px 0 50px 0;
+  }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  header img {
+    width: 500px;
+    height: auto;
+    padding: 0 50px;
+    box-sizing: border-box;
+  }
+
+  header nav {
+    margin: 50px 0 0 0;
+  }
+
+  main {
+    padding: 30px 0;
+  }
+
+  article {
+    padding: 0;
+  }
+
+  article h2 {
+    font-size: 28px;
+  }
+
+  article p {
+    font-size: 18px;
+  }
+
+  .content {
+    width: 100%;
+    padding: 25px;
+    box-sizing: border-box;
+  }
+
+  .sidebar {
+    background: none;
+    padding: 20px;
+  }
+
+  .sidebar ul {
+    padding-bottom: 0;
+  }
+
+  .block {
+    display: block;
+    width: auto;
+    background: #f6f7f8;
+    padding: 20px;
+    margin: 0 0 15px 0;
+    box-sizing: border-box;
+  }
+
+  footer {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 1050px) {
+  main {
+    margin: 0 25px;
+  }
+
+  footer {
+    padding: 25px;
+  }
+}
