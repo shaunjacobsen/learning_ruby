@@ -7,160 +7,154 @@
   <title>Todo List</title>
 </head>
 <body>
-    <input id="menu-button" type="checkbox"><label class="icon menu" for="menu-button"></label>
-    <div class="sidebar">
-      <div class="icon list"></div><h1>All Todos <span class="count">18</span></h1>
-      <ul>
-        <li class="active">02/16 <span class="count active">8</span></li>
-        <li>03/16 <span class="count">2</span></li>
-        <li>04/16 <span class="count">1</span></li>
-        <li>05/16 <span class="count">1</span></li>
-        <li>06/16 <span class="count">6</span></li>
-      </ul>
+  <input id="menu-button" type="checkbox"><label class="icon menu" for="menu-button"></label>
+  <div class="sidebar">
+    <div class="icon list"></div><h1>All Todos <span class="count">18</span></h1>
+    <ul>
+      <li class="active">02/16 <span class="count active">8</span></li>
+      <li>03/16 <span class="count">2</span></li>
+      <li>04/16 <span class="count">1</span></li>
+      <li>05/16 <span class="count">1</span></li>
+      <li>06/16 <span class="count">6</span></li>
+    </ul>
 
-      <div class="icon complete"></div><h1>Completed</h1>
-      <ul>
-        <li class="done">02/16</li>
-        <li class="done">03/16</li>
-        <li class="done">04/16</li>
-        <li class="done">05/16</li>
-        <li class="done">06/16</li>
-      </ul>
-    </div>
+    <div class="icon complete"></div><h1>Completed</h1>
+    <ul>
+      <li class="done">02/16</li>
+      <li class="done">03/16</li>
+      <li class="done">04/16</li>
+      <li class="done">05/16</li>
+      <li class="done">06/16</li>
+    </ul>
+  </div>
 
-    <main>
+  <main>
 
     <div class="list-container">
-        
-        <h2>02/16 <span class="count active">8</span></h2>
 
-        <a href="#"><span class="text-icon">+</span>Add new to do</a>
-        <ul>
-          <li>
-            <label for="checkbox1" id="checkbox1label">
+      <h2>02/16 <span class="count active">8</span></h2>
+
+      <a href="#"><span class="text-icon">+</span>Add new to do</a>
+      <ul>
+        <li>
+          <label for="checkbox1" id="checkbox1label">
             <input type="checkbox" value="checkbox1" id="checkbox1">&nbsp;Item 1
             <div class="modal-hide"></div>
             <div class="modal">
               <form>
-                <table>
-                <tr>
-                  <td><label for="title">Title</label></td>
-                  <td><input type="text" name="title" id="title"></td>
-                </tr>
-                <tr>
-                  <td><label for="day">Due Date</label></td>
-                  <td><select name="day">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                        <option value="24">24</option>
-                        <option value="25">25</option>
-                        <option value="26">26</option>
-                        <option value="27">27</option>
-                        <option value="28">28</option>
-                        <option value="29">29</option>
-                        <option value="30">30</option>
-                        <option value="31">31</option>
-                      </select> / 
-                      <select name="month">
-                        <option value="" selected>Month</option>
-                        <option value="January">January</option>
-                        <option value="February">February</option>
-                        <option value="March">March</option>
-                        <option value="April">April</option>
-                        <option value="May">May</option>
-                        <option value="June">June</option>
-                        <option value="July">July</option>
-                        <option value="August">August</option>
-                        <option value="September">September</option>
-                        <option value="October">October</option>
-                        <option value="November">November</option>
-                        <option value="December">December</option>
-                      </select> / 
-                      <select name="year">
-                        <option value="" selected>Year</option>
-                        <option value="2017">2017</option>
-                        <option value="2018">2018</option>
-                        <option value="2019">2019</option>
-                      </select></td>
-                </tr>
-                <tr>
-                  <td class="align-top"><label for="description">Description</label></td>
-                  <td class="no-padding"><textarea rows="20" name="description" id="description"></textarea></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td><input type="submit" value="Save" /> <input type="submit" value="Mark As Complete" /></td>
-                </tr>
-                </table>
-              </form>
-              </div>
-            </label>
+                <dl>
+                  <dt><label for="title">Title</label></dt>
+                  <dd><input type="text" name="title" id="title" placeholder="Item 2"></dd>
+                  <dt><label for="day">Due Date</label></dt>
+                  <dd>
+                    <select name="day">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                      <option value="13">13</option>
+                      <option value="14">14</option>
+                      <option value="15">15</option>
+                      <option value="16" selected>16</option>
+                      <option value="17">17</option>
+                      <option value="18">18</option>
+                      <option value="19">19</option>
+                      <option value="20">20</option>
+                      <option value="21">21</option>
+                      <option value="22">22</option>
+                      <option value="23">23</option>
+                      <option value="24">24</option>
+                      <option value="25">25</option>
+                      <option value="26">26</option>
+                      <option value="27">27</option>
+                      <option value="28">28</option>
+                      <option value="29">29</option>
+                      <option value="30">30</option>
+                      <option value="31">31</option>
+                    </select> / 
+                    <select name="month">
+                      <option value="" selected>Month</option>
+                      <option value="January">January</option>
+                      <option value="February">February</option>
+                      <option value="March">March</option>
+                      <option value="April">April</option>
+                      <option value="May">May</option>
+                      <option value="June">June</option>
+                      <option value="July">July</option>
+                      <option value="August">August</option>
+                      <option value="September">September</option>
+                      <option value="October">October</option>
+                      <option value="November">November</option>
+                      <option value="December">December</option>
+                    </select> / 
+                    <select name="year">
+                      <option value="" selected>Year</option>
+                      <option value="2017">2017</option>
+                      <option value="2018">2018</option>
+                      <option value="2019">2019</option>
+                      </select>
+                    </dd>
+                    <dt><label for="description">Description</label></dt>
+                    <dd><textarea rows="20" name="description" id="description" placeholder="Description"></textarea></dd>
+                    <span class="buttons">
+                      <input type="submit" value="Save" /> <input type="submit" value="Mark As Complete" />
+                    </span>
+                  </form>
+                </div>
+              </label>
               
-            <div class="icon trash"></div>
-          </li>
-          <li>
-            <input type="checkbox" value="checkbox2" id="checkbox2">
-            <label for="checkbox2">Item 2</label>
-            <div class="icon trash"></div>
-          </li>
-          <li>
-            <input type="checkbox" value="checkbox3" id="checkbox3">
-            <label for="checkbox3">Item 3</label>
-            <div class="icon trash"></div>
-          </li>
-          <li>
-            <input type="checkbox" value="checkbox4" id="checkbox4" checked>
-            <label for="checkbox4">Item 4</label>
-            <div class="icon trash"></div>
-          </li>
-          <li>
-            <input type="checkbox" value="checkbox5" id="checkbox5" checked>
-            <label for="checkbox5">Item 5</label>
-            <div class="icon trash"></div>
-          </li>
-          <li>
-            <input type="checkbox" value="checkbox6" id="checkbox6" checked>
-            <label for="checkbox6">Item 6</label>
-            <div class="icon trash"></div>
-          </li>
-          <li>
-            <input type="checkbox" value="checkbox7" id="checkbox7">
-            <label for="checkbox7">Item 7</label>
-            <div class="icon trash"></div>
-          </li>
-          <li>
-            <input type="checkbox" value="checkbox8" id="checkbox8">
-            <label for="checkbox8">Item 8</label>
-            <div class="icon trash"></div>
-          </li>
-          <li>
-            <input type="checkbox" value="checkbox9" id="checkbox9">
-            <label for="checkbox9">Item 9</label>
-            <div class="icon trash"></div>
-          </li>
-        </ul>
-      </div>
-    </main>
-</body>
-</html>
+              <div class="icon trash"></div>
+            </li>
+            <li>
+              <input type="checkbox" value="checkbox2" id="checkbox2">
+              <label for="checkbox2">Item 2</label>
+              <div class="icon trash"></div>
+            </li>
+            <li>
+              <input type="checkbox" value="checkbox3" id="checkbox3">
+              <label for="checkbox3">Item 3</label>
+              <div class="icon trash"></div>
+            </li>
+            <li>
+              <input type="checkbox" value="checkbox4" id="checkbox4" checked>
+              <label for="checkbox4">Item 4</label>
+              <div class="icon trash"></div>
+            </li>
+            <li>
+              <input type="checkbox" value="checkbox5" id="checkbox5" checked>
+              <label for="checkbox5">Item 5</label>
+              <div class="icon trash"></div>
+            </li>
+            <li>
+              <input type="checkbox" value="checkbox6" id="checkbox6" checked>
+              <label for="checkbox6">Item 6</label>
+              <div class="icon trash"></div>
+            </li>
+            <li>
+              <input type="checkbox" value="checkbox7" id="checkbox7">
+              <label for="checkbox7">Item 7</label>
+              <div class="icon trash"></div>
+            </li>
+            <li>
+              <input type="checkbox" value="checkbox8" id="checkbox8">
+              <label for="checkbox8">Item 8</label>
+              <div class="icon trash"></div>
+            </li>
+            <li>
+              <input type="checkbox" value="checkbox9" id="checkbox9">
+              <label for="checkbox9">Item 9</label>
+              <div class="icon trash"></div>
+            </li>
+          </ul>
+        </div>
+      </main>
+    </body>
+    </html>

@@ -1,4 +1,4 @@
-@import url("css/whitespace-reset.css");
+@import url("whitespace-reset.css");
 
 body {
   font-family: Helvetica, Arial, sans-serif;
@@ -81,7 +81,7 @@ body {
 }
 
 .icon {
-  background-image: url('img/icons.png');
+  background-image: url('icons.png');
   display: inline-block;
   height: 28px;
   width: 28px;
@@ -178,7 +178,7 @@ input[type=checkbox]:checked {
   -moz-appearance:none;
   -webkit-appearance:none;
   -o-appearance:none;
-  background:url("img/checkmark.png") no-repeat 0 0;
+  background:url("checkmark.png") no-repeat 0 0;
   outline: 1px solid #b3b3b3;
 }
 
@@ -242,6 +242,10 @@ input#checkbox1:checked ~ .modal-hide {
   vertical-align: middle;
 }
 
+.modal select {
+  background: url("arrows.png") no-repeat;
+}
+
 .modal input[type=text], textarea {
   width: 336px;
   height: 36px;
@@ -277,7 +281,7 @@ input#checkbox1:checked ~ .modal-hide {
   -moz-appearance:none;
   -webkit-appearance:none;
   -o-appearance:none;
-  background: #fff url("img/arrows.png") no-repeat 80px 7px;
+  background: #fff url("arrows.png") no-repeat 80px 7px;
   border: 1px solid #ccc;
   border-radius: 0px;
   padding: 10px;
