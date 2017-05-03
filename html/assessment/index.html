@@ -37,17 +37,16 @@
       <a href="#"><span class="text-icon">+</span>Add new to do</a>
       <ul>
         <li>
-          <label for="checkbox1" id="checkbox1label">
-            <input type="checkbox" value="checkbox1" id="checkbox1">&nbsp;Item 1
+            <input type="checkbox" value="checkbox1" id="checkbox1">&nbsp;<label for="checkbox1" id="checkbox1label">Item 1</label>
             <div class="modal-hide"></div>
             <div class="modal">
               <form>
                 <dl>
                   <dt><label for="title">Title</label></dt>
                   <dd><input type="text" name="title" id="title" placeholder="Item 2"></dd>
-                  <dt><label for="day">Due Date</label></dt>
+                  <dt><label for="date">Due Date</label></dt>
                   <dd>
-                    <select name="day">
+                    <select name="date" id ="date">
                       <option value="1">1</option>
                       <option value="2">2</option>
                       <option value="3">3</option>
@@ -104,12 +103,10 @@
                     </dd>
                     <dt><label for="description">Description</label></dt>
                     <dd><textarea rows="20" name="description" id="description" placeholder="Description"></textarea></dd>
-                    <span class="buttons">
-                      <input type="submit" value="Save" /> <input type="submit" value="Mark As Complete" />
-                    </span>
+                    </dl>
+                    <input type="submit" value="Save" /> <input type="submit" value="Mark As Complete" />
                   </form>
                 </div>
-              </label>
               
               <div class="icon trash"></div>
             </li>

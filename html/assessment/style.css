@@ -17,7 +17,7 @@ body {
   background: #464f77;
   color: #fff;
   margin: 0;
-  padding-top: 72px;
+  padding-top: 64px;
   box-sizing: border-box;
 }
 
@@ -87,9 +87,9 @@ body {
   width: 28px;
 }
 
-.icon.list { background-position: 0 84px; }
-.icon.complete { background-position: 0 56px; }
-.icon.menu { background-position: 0 112px; }
+.icon.complete { background-position: 0 84px; }
+.icon.menu { background-position: 0 56px; }
+.icon.list { background-position: 0 112px; }
 .icon.trash { background-position: 0 28px; }
 
 input#menu-button, label.menu {
@@ -98,7 +98,7 @@ input#menu-button, label.menu {
 
 main {
   margin: 0 100px 0 335px;
-  padding: 72px 0 0 32px;
+  padding: 64px 0 0 32px;
   box-sizing: border-box;
 }
 
@@ -215,7 +215,7 @@ input#checkbox1:checked ~ .modal {
   width: 545px;
   height: 400px;
   background: #fff;
-  margin: 0 25% 0 25%;
+  margin: 0 25% 0 15%;
   z-index: 100;
 }
 
@@ -232,7 +232,7 @@ input#checkbox1:checked ~ .modal-hide {
 }
 
 .modal form {
-  margin: 19px 40px;
+  margin: 35px 40px;
 }
 
 .modal label {
@@ -258,12 +258,16 @@ input#checkbox1:checked ~ .modal-hide {
   border-radius: 4px;
   width: 172px;
   height: 36px;
-  margin: 0 10px 0 0;
+  margin: 0 0 0 10px;
   box-sizing: border-box;
   display: inline-block;
   cursor: pointer;
   border: none;
   -webkit-appearance: none;
+}
+
+.modal input[type=submit]:first-of-type {
+  margin: 0 0 0 105px;
 }
 
 .modal textarea {
@@ -298,10 +302,6 @@ input#checkbox1:checked ~ .modal-hide {
   margin-right: 0;
 }
 
-.modal .buttons {
-  margin: 0 0 0 105px;
-}
-
 .modal td {
   padding: 12px 0;
 }
@@ -333,7 +333,7 @@ input#checkbox1:checked ~ .modal-hide {
   }
 
   .list-container {
-    margin-top: 75px;
+    margin-top: 92px;
   }
 
   label.menu {
