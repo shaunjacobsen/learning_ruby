@@ -166,4 +166,152 @@ function returnString(arr) {
   return str;
 }
 
+function push(arr, new_val) {
+  new_idx = arr.length;
+  arr[new_idx] = new_val;
+  return new_idx;
+}
+
+function pop(arr) {
+  var newLength = arr.length - 1;
+  var value = array[newLength];
+  array.length = newLength;
+  return value;
+}
+
+function unshift(arr, newVal) {
+  var shiftedArray = [];
+  for (var i = 0; i < arr.length; i++) {
+    shiftedArray[i + 1] = arr[i];
+  }
+  shiftedArray[0] = newVal;
+  return shiftedArray;
+}
+
+function indexOf(arr, value) {
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i] === value) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function lastIndexOf(arr, value) {
+  for (var i = arr.length - 1; i >= 0; i--) {
+    if (arr[i] === value) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function slice(arr, start, end) {
+  var returnArray = [];
+  for (var i = start; i < end; i++) {
+    push(returnArray, arr[i]);
+  }
+  return returnArray;
+}
+
+function splice(arr, start, num) {
+  var returnArray = [];
+  for (var i = start; i < arr.length; i++) {
+    if (i < start + num) {
+      push(returnArray, arr[i]);
+    }
+    arr[i] = arr[i + num]; 
+  }
+  arr.length = arr.length - num;
+  return returnArray;
+}
+
+function concat(firstArray, secondArray) {
+  var newArray = [];
+  for (var i = 0; i < firstArray.length; i++) {
+    push(newArray, firstArray[i]);
+  }
+
+  for (var i = 0; i < secondArray.length; i++) {
+    push(newArray, secondArray[i]);
+  }
+
+  return newArray;
+}
+
+function join(arr, delim) {
+  var returnString = '';
+  for (var i = 0; i < arr.length; i++) {
+    returnString += arr[i] + delim;
+  }
+  return returnString;
+}
+
+function firstNOf(arr, num) {
+  var newArray = [];
+  for (var i = 0; i < num; i++) {
+    push(newArray, arr[i]);
+  }
+  return newArray;
+}
+
+function joinArray(arr, joiner) {
+  var returnString = arr[0].toString();
+  var joiner = joiner || '';
+  for (var i = 1; i < arr.length; i++) {
+    returnString += joiner + arr[i];
+  }
+  return returnString;
+}
+
+function missing(arr) {
+  var returnArray = [];
+  var low = arr[0];
+  var high = arr[arr.length - 1];
+  for (i = low; i < high; i++) {
+    if (arr.indexOf(i) < 0) {
+      returnArray.push(i);
+    }
+  }
+  return returnArray;
+}
+
+function objectHasProperty(obj, key) {
+  var keys = Object.keys(obj);
+  return keys.indexOf(key) !== -1;
+}
+
+function incrementProperty(obj, key) {
+  var keys = Object.keys(obj);
+  if (keys.indexOf(key) === -1) {
+    obj[key] = 1;
+  } else {
+    obj[key] += 1;
+  }
+}
+
+function copyProperties(obj1, obj2) {
+  var count = 0;
+  for (var key in obj1) {
+    obj2[key] = obj1[key]
+    count++;
+  }
+  return count;
+}
+
+function wordCount(str) {
+  splitUp = str.split(' ');
+  newObj = {};
+  for (var i = 0; i < splitUp.length; i++) {
+    if (newObj[splitUp[i]]) {
+      newObj[splitUp[i]]++;
+    } else {
+      newObj[splitUp[i]] = 1;
+    }
+  }
+  return newObj;
+}
+
+
+
 
